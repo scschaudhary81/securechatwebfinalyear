@@ -11,7 +11,7 @@ import '../services/cloud_storage_services.dart';
 import '../services/database_services.dart';
 class SplashScreen extends StatefulWidget {
   final VoidCallback onIntialisationDone;
-
+  static const route = "/splashscreen";
   const SplashScreen({required Key? key, required this.onIntialisationDone})
       : super(key: key);
 
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2),(){
+    Future.delayed(const Duration(seconds: 14),(){
       _setup().then((_) => widget.onIntialisationDone());
     });
 
@@ -34,8 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        backgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
-        scaffoldBackgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
+        backgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: Scaffold(
         body: Container(
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: 100,
                     child: DefaultTextStyle(
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black54,
                         fontSize: 50.0,
                         fontFamily: 'Horizon',
                       ),
