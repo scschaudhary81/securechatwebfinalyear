@@ -19,7 +19,7 @@ class CustomInputField extends StatelessWidget {
     return TextFormField(
       onSaved: (_input) => onSaved(_input!),
       cursorColor: Colors.blue,
-      style:const TextStyle(color: Colors.black54),
+      style:const TextStyle(color: Colors.teal),
       obscureText: isObscured,
       validator: (_value){
          return RegExp(regExp).hasMatch(_value!) ? null : "Enter a valid value.";
@@ -28,8 +28,8 @@ class CustomInputField extends StatelessWidget {
         fillColor: Colors.black12,
         filled: true,
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.black54),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none,)
+        hintStyle: const TextStyle(color: Colors.black45),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none,),
       ),
     );
   }

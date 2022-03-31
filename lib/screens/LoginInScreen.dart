@@ -1,9 +1,14 @@
 //packages
 import 'package:flutter/material.dart';
-
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+//services
+import '../services/navigation_services.dart';
 //widgets
 import '../widgets/custom_input_fields.dart';
 import '../widgets/custom_rounded_button.dart';
+//providers
+import '../providers/authentication_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,11 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
   }
-
+  late NavigationServices _navigationServices;
+  late AuthenticationProvider _authenticationProvider;
+  String? _email;
+  String? _password;
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
+    _authenticationProvider = Provider.of<AuthenticationProvider>(context);
+    _navigationServices = GetIt.instance.get<NavigationServices>();
     return _actualUi();
   }
 
@@ -109,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       child: Container(
         child: const Text(
-          'Don,t have and account',
+          "Don't have and account",
           style: TextStyle(color: Colors.teal),
         ),
       ),
