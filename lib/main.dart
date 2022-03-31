@@ -1,4 +1,5 @@
 //screens
+import './screens/home_screen.dart';
 import './screens/LoginInScreen.dart';
 import './screens/SplashScreen.dart';
 
@@ -23,8 +24,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -32,29 +32,35 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AuthenticationProvider>(
             create: (ctx) => AuthenticationProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Secure Chat",
-        theme: ThemeData(
-          backgroundColor: Colors.white,
-          scaffoldBackgroundColor: Colors.white,
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: Colors.white24,
-          ),
-        ),
-        darkTheme: ThemeData(
-          backgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
-          scaffoldBackgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: Color.fromRGBO(30, 29, 37, 1.0),
-          ),
-        ),
-        navigatorKey: NavigationServices.navigationKey,
-        initialRoute: LoginScreen.route,
-        routes: {
-          LoginScreen.route: (BuildContext context) => LoginScreen(),
-        },
-      ),
+      child:_actualApp(context),
     );
   }
+  Widget _actualApp(BuildContext context)
+  {
+    return  MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Secure Chat",
+      theme: ThemeData(
+        backgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white24,
+        ),
+      ),
+      darkTheme: ThemeData(
+        backgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
+        scaffoldBackgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color.fromRGBO(30, 29, 37, 1.0),
+        ),
+      ),
+      navigatorKey:  NavigationServices.navigationKey,
+      initialRoute: LoginScreen.route,
+      routes: {
+        LoginScreen.route: (BuildContext context) => LoginScreen(),
+        HomeScreen.route: (BuildContext context) => HomeScreen(),
+      },
+    );
+  }
+
 }

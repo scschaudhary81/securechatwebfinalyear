@@ -1,4 +1,5 @@
 //packages
+import 'package:final_year_project/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
   }
-  late NavigationServices _navigationServices;
   late AuthenticationProvider _authenticationProvider;
+  late NavigationServices _navigationServices;
   String? _email;
   String? _password;
   @override
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _actualUi() {
     return Scaffold(
-      body: Container(
+      body:Container(
         padding: EdgeInsets.symmetric(
             vertical: _width * .03, horizontal: _height * .03),
         height: _height * .98,
@@ -82,21 +83,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _formLogin() {
     return Container(
-      height: _height * 0.20,
+      height: _height * 0.28,
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomInputField(
-                onSaved: (_value) {},
+                onSaved: (_value) {
+                  setState(() {
+                    _email = _value;
+                  });
+                },
                 hintText: "Email",
                 isObscured: false,
                 regExp: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'),
+            SizedBox(height: _height*.04),
             CustomInputField(
-                onSaved: (_value) {},
+                onSaved: (_value) {
+                  _password = _value;
+                },
                 hintText: "Password",
                 isObscured: true,
                 regExp: r'.{8,}'),
@@ -108,7 +116,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginButton() {
     return CustomRoundedButton(
-      onPressed: () {},
+      onPressed: () {
+          if(_formKey.currentState!.validate())
+            {
+              print("email : $_email password : $_password");
+                _formKey.currentState!.save();
+                print("email : $_email password : $_password");
+                _authenticationProvider.loginUsingEmailAndPassword(_email!, _password!);
+            }
+      },
       width: _width * 0.65,
       height: _height * 0.065,
       name: "Login",
