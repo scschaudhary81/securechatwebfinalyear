@@ -2,7 +2,7 @@
 import './screens/home_screen.dart';
 import './screens/LoginInScreen.dart';
 import './screens/SplashScreen.dart';
-
+import './screens/in_between_screen.dart';
 //packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,10 +55,11 @@ class MyApp extends StatelessWidget {
         ),
       ),
       navigatorKey:  NavigationServices.navigationKey,
-      initialRoute: LoginScreen.route,
+      initialRoute: InBetweenScreen.route,
       routes: {
         LoginScreen.route: (BuildContext context) => LoginScreen(),
         HomeScreen.route: (BuildContext context) => HomeScreen(),
+        InBetweenScreen.route : (BuildContext context) => InBetweenScreen(),
       },
     );
   }

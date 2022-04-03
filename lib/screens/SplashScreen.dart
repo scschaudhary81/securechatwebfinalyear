@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 14),(){
+    Future.delayed(const Duration(seconds: 10),(){
       _setup().then((_) => widget.onIntialisationDone());
     });
 
@@ -57,23 +57,13 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontFamily: 'Horizon',
                       ),
                       child: AnimatedTextKit(
+                          repeatForever: true,
                           isRepeatingAnimation: true,
                           animatedTexts: [
-                            RotateAnimatedText("Secure Chat"),
                             RotateAnimatedText("Hi"),
-                            RotateAnimatedText("Bonjour"),
-                            RotateAnimatedText("Hola"),
                             RotateAnimatedText("Namaste"),
+                            RotateAnimatedText("Loading"),
                             RotateAnimatedText("Secure Chat"),
-                            RotateAnimatedText("Hi"),
-                            RotateAnimatedText("Bonjour"),
-                            RotateAnimatedText("Hola"),
-                            RotateAnimatedText("Namaste"),
-                            RotateAnimatedText("Secure Chat"),
-                            RotateAnimatedText("Hi"),
-                            RotateAnimatedText("Bonjour"),
-                            RotateAnimatedText("Hola"),
-                            RotateAnimatedText("Namaste"),
                           ]),
                     ),
                   ),

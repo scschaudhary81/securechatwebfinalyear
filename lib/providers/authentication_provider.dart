@@ -1,5 +1,4 @@
 //Packages
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -23,6 +22,7 @@ class AuthenticationProvider extends ChangeNotifier {
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
+    _auth.signOut();
     _dataBaseServices = GetIt.instance.get<DataBaseServices>();
     _navigationServices = GetIt.instance.get<NavigationServices>();
     _auth.authStateChanges().listen((_user) {
@@ -59,9 +59,5 @@ class AuthenticationProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
-  }
-
-  bool currentLoginStatus() {
-    return _auth.currentUser!=null;
   }
 }
