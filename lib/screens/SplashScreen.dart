@@ -9,9 +9,11 @@ import '../services/navigation_services.dart';
 import '../services/media_services.dart';
 import '../services/cloud_storage_services.dart';
 import '../services/database_services.dart';
+
 class SplashScreen extends StatefulWidget {
   final VoidCallback onIntialisationDone;
   static const route = "/splashscreen";
+
   const SplashScreen({required Key? key, required this.onIntialisationDone})
       : super(key: key);
 
@@ -23,10 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 10),(){
+    Future.delayed(const Duration(seconds: 10), () {
       _setup().then((_) => widget.onIntialisationDone());
     });
-
   }
 
   @override
@@ -85,7 +86,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void _registerServices() {
     GetIt.instance.registerSingleton<NavigationServices>(NavigationServices());
     GetIt.instance.registerSingleton<MediaServices>(MediaServices());
-    GetIt.instance.registerSingleton<CloudStorageServices>(CloudStorageServices());
+    GetIt.instance
+        .registerSingleton<CloudStorageServices>(CloudStorageServices());
     GetIt.instance.registerSingleton<DataBaseServices>(DataBaseServices());
   }
 }
