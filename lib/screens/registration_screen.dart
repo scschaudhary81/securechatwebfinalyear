@@ -31,10 +31,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   late double _height;
   late double _width;
+  late MediaServices _mediaServices;
   PlatformFile? _imageSelected;
 
   @override
   Widget build(BuildContext context) {
+    _mediaServices = GetIt.instance.get<MediaServices>();
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     return _actualUi();
@@ -61,15 +63,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _profilePicture() {
-    if (_imageSelected != null) {
-      return Container();
-    } else {
-      return CustomRoundedImageWidget(
-        key: UniqueKey(),
-        imagePath: "https://i.pravatar.cc/300",
-        size: _height * .15,
-      );
-      // added this line
-    }
+    return GestureDetector(
+      onTap: () {
+        _mediaServices.returnPickedFile().then((_value) {
+          setState(() {
+            _imageSelected = _value;
+          });
+        });
+      },
+      child: () {
+        if (_imageSelected != null) {
+          return CustomRoundedImageFileWidget(
+            file: _imageSelected!,
+            key: UniqueKey(),
+            size: _height * .15,
+          );
+        } else {
+          return CustomRoundedImageWidget(
+            key: UniqueKey(),
+            imagePath: "https://i.pravatar.cc/300",
+            size: _height * .15,
+          );
+          // added this line
+        }
+      }(),
+    );
   }
 }
