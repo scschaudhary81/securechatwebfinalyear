@@ -1,5 +1,4 @@
 //packages
-import 'package:final_year_project/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +9,8 @@ import '../widgets/custom_input_fields.dart';
 import '../widgets/custom_rounded_button.dart';
 //providers
 import '../providers/authentication_provider.dart';
+//screens
+import '../screens/registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -140,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       onTap: () {
-        //to implement
+        _navigationServices.navigateToRoute(RegisterScreen.route);
       },
     );
   }

@@ -22,7 +22,8 @@ class AuthenticationProvider extends ChangeNotifier {
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
-    _auth.signOut();
+    //if want to sign out Current User
+    //_auth.signOut();
     _dataBaseServices = GetIt.instance.get<DataBaseServices>();
     _navigationServices = GetIt.instance.get<NavigationServices>();
     _auth.authStateChanges().listen((_user) {

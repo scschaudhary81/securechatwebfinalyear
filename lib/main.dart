@@ -3,6 +3,7 @@ import './screens/home_screen.dart';
 import './screens/LoginInScreen.dart';
 import './screens/SplashScreen.dart';
 import './screens/in_between_screen.dart';
+import './screens/registration_screen.dart';
 //packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.route: (BuildContext context) => LoginScreen(),
         HomeScreen.route: (BuildContext context) => HomeScreen(),
         InBetweenScreen.route : (BuildContext context) => InBetweenScreen(),
+        RegisterScreen.route : (BuildContext context)=> RegisterScreen(),
       },
     );
   }
