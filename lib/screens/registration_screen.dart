@@ -69,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         imagePath: "https://i.pravatar.cc/300",
         size: _height * .15,
       );
+      // added this line
     }
   }
 }
