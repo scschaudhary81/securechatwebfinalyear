@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 //services
 import '../services/navigation_services.dart';
+
 //widgets
 import '../widgets/custom_input_fields.dart';
 import '../widgets/custom_rounded_button.dart';
+
 //providers
 import '../providers/authentication_provider.dart';
+
 //screens
 import '../screens/registration_screen.dart';
 
@@ -36,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late NavigationServices _navigationServices;
   String? _email;
   String? _password;
+
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
@@ -127,18 +132,20 @@ class _LoginScreenState extends State<LoginScreen> {
           print("email : $_email password : $_password");
           _authenticationProvider
               .loginUsingEmailAndPassword(_email!, _password!, context)
-              .then((value) {
-            if (!value) {
-              Fluttertoast.showToast(
-                  msg: "Enter Correct Email and Password!!",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.teal,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
-            }
-          });
+              .then(
+            (value) {
+              if (!value) {
+                Fluttertoast.showToast(
+                    msg: "Enter Correct Email and Password!!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.teal,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
+            },
+          );
         }
       },
       width: _width * 0.65,
@@ -150,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _registerNewUser() {
     return GestureDetector(
       child: Container(
+        alignment: Alignment.center,
         child: const Text(
           "Don't have and account",
           style: TextStyle(color: Colors.teal),

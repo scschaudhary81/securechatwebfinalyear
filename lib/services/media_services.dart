@@ -5,11 +5,11 @@ class MediaServices{
 
   Future<PlatformFile?> returnPickedFile() async
   {
-       FilePickerResult? _result = await  FilePicker.platform.pickFiles(type: FileType.image);
+       FilePickerResult? _result = await  FilePicker.platform.pickFiles(type: FileType.image,allowMultiple: false);
        if(_result==null) {
          return null;
        } else {
-         return _result.files[0];
+         return _result.files.first;
        }
   }
 }

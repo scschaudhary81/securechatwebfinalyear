@@ -1,4 +1,7 @@
 //packages
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -30,6 +33,7 @@ class CustomRoundedImageWidget extends StatelessWidget {
 class CustomRoundedImageFileWidget extends StatelessWidget {
   final double size;
   final PlatformFile file;
+
   const CustomRoundedImageFileWidget(
       {required Key key, required this.file, required this.size})
       : super(key: key);
@@ -40,11 +44,10 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(size)),
-        color: Colors.teal,
-        image:
-            DecorationImage(image: AssetImage(file.path!), fit: BoxFit.cover),
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(size)),
+          color: Colors.white,
+          image: DecorationImage(
+              image: Image.file(File(file!.path.toString())).image, fit: BoxFit.cover)),
     );
   }
 }

@@ -23,7 +23,7 @@ class AuthenticationProvider extends ChangeNotifier {
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
     //if want to sign out Current User
-    _auth.signOut();
+    //  _auth.signOut();
     _dataBaseServices = GetIt.instance.get<DataBaseServices>();
     _navigationServices = GetIt.instance.get<NavigationServices>();
     _auth.authStateChanges().listen((_user) {
@@ -55,10 +55,7 @@ class AuthenticationProvider extends ChangeNotifier {
       await _auth.signInWithEmailAndPassword(
           email: _email, password: _password);
       print("logged in ");
-    } on FirebaseAuthException {
-      print("Error logging user into Firebase");
-      return false;
-    } catch (e) {
+    }catch (e) {
       print(e);
       return false;
     }
