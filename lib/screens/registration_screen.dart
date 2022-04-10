@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _profilePicture() {
     if (_imageSelected != null) {
-      return null;
+      return Container();
     } else {
       return CustomRoundedImageWidget(
         key: UniqueKey(),

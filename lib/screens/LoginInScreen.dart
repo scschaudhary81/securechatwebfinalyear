@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //services
 import '../services/navigation_services.dart';
 //widgets
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
   }
+
   late AuthenticationProvider _authenticationProvider;
   late NavigationServices _navigationServices;
   String? _email;
@@ -45,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _actualUi() {
     return Scaffold(
-      body:Container(
+      body: Container(
         padding: EdgeInsets.symmetric(
             vertical: _width * .03, horizontal: _height * .03),
         height: _height * .98,
@@ -101,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: "Email",
                 isObscured: false,
                 regExp: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'),
-            SizedBox(height: _height*.04),
+            SizedBox(height: _height * .04),
             CustomInputField(
                 onSaved: (_value) {
                   _password = _value;
@@ -118,13 +120,26 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _loginButton() {
     return CustomRoundedButton(
       onPressed: () {
-          if(_formKey.currentState!.validate())
-            {
-              print("email : $_email password : $_password");
-                _formKey.currentState!.save();
-                print("email : $_email password : $_password");
-                _authenticationProvider.loginUsingEmailAndPassword(_email!, _password!);
+        FocusManager.instance.primaryFocus?.unfocus();
+        if (_formKey.currentState!.validate()) {
+          print("email : $_email password : $_password");
+          _formKey.currentState!.save();
+          print("email : $_email password : $_password");
+          _authenticationProvider
+              .loginUsingEmailAndPassword(_email!, _password!, context)
+              .then((value) {
+            if (!value) {
+              Fluttertoast.showToast(
+                  msg: "Enter Correct Email and Password!!",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.teal,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
             }
+          });
+        }
       },
       width: _width * 0.65,
       height: _height * 0.065,
