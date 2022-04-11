@@ -26,23 +26,29 @@ class AuthenticationProvider extends ChangeNotifier {
     //  _auth.signOut();
     _dataBaseServices = GetIt.instance.get<DataBaseServices>();
     _navigationServices = GetIt.instance.get<NavigationServices>();
-    _auth.authStateChanges().listen((_user) {
+    _auth.authStateChanges().listen((_user) async{
       if (_user != null) {
         _dataBaseServices.updateUserLastSeenTime(_user.uid);
-        _dataBaseServices.getUser(_user.uid).then((snapshot) {
-          Map<String, dynamic> _userData =
+        _dataBaseServices.getUser(_user.uid).then((snapshot) async{
+          if(snapshot!=null&&snapshot.exists)
+            {
+              Map<String, dynamic> _userData =
               snapshot!.data() as Map<String, dynamic>;
-          user = ChatUser.fromJSON({
-            "uid": _user.uid,
-            "name": _userData["name"],
-            "email": _userData["email"],
-            "last_active": _userData["last_active"],
-            "image": _userData["image"],
-          });
-          print(
-              "Data for the logged in user -----------------------\n${user.toMap()} \n------------------");
+              user = ChatUser.fromJSON({
+                "uid": _user.uid,
+                "name": _userData["name"],
+                "email": _userData["email"],
+                "last_active": _userData["last_active"],
+                "image": _userData["image"],
+
+              });
+              print("user logged in");
+              _navigationServices.popAndNavigateToRoute(HomeScreen.route);
+            }
+          else {
+            await _auth.signOut();
+          }
         });
-        _navigationServices.popAndNavigateToRoute(HomeScreen.route);
       } else {
         _navigationServices.popAndNavigateToRoute(LoginScreen.route);
       }
@@ -55,10 +61,31 @@ class AuthenticationProvider extends ChangeNotifier {
       await _auth.signInWithEmailAndPassword(
           email: _email, password: _password);
       print("logged in ");
-    }catch (e) {
+    } catch (e) {
       print(e);
       return false;
     }
     return true;
+  }
+
+  Future<String?> registerUserWithEmailAndPassword(
+      String _email, String _password) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: _email, password: _password);
+      return userCredential.user!.uid;
+    } on FirebaseException {
+      print("Error Logging in User");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      _auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 }

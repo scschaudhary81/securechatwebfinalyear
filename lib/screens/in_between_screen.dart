@@ -1,24 +1,24 @@
 //screens
-import '../screens/LoginInScreen.dart';
+import 'package:provider/provider.dart';
 //packages
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import '../services/navigation_services.dart';
+
+//provider
+import '../providers/authentication_provider.dart';
 
 class InBetweenScreen extends StatefulWidget {
   static const route = "/in_between_screen";
-  const InBetweenScreen({Key? key}) : super(key: key);
+  InBetweenScreen({Key? key}) : super(key: key);
 
   @override
   State<InBetweenScreen> createState() => _InBetweenScreenState();
 }
 
 class _InBetweenScreenState extends State<InBetweenScreen> {
-  late NavigationServices _navigationServices;
+  late AuthenticationProvider _auth ;
   @override
   Widget build(BuildContext context) {
-    _navigationServices = GetIt.instance.get<NavigationServices>();
-    Future.delayed(const Duration(seconds: 1)).then((value) => _navigationServices.popAndNavigateToRoute(LoginScreen.route));
+    _auth = Provider.of<AuthenticationProvider>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,

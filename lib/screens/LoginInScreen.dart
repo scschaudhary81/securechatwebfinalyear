@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       onTap: () {
-        _navigationServices.navigateToRoute(RegisterScreen.route);
+        _navigationServices.popAndNavigateToRoute(RegisterScreen.route);
       },
     );
   }

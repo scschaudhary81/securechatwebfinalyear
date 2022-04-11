@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
 class CustomRoundedImageWidget extends StatelessWidget {
-  final String imagePath;
   final double size;
 
   const CustomRoundedImageWidget(
-      {required this.size, required this.imagePath, required Key key})
+      {required this.size, required Key key})
       : super(key: key);
 
   @override
@@ -21,10 +20,16 @@ class CustomRoundedImageWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(size)),
         color: Colors.teal,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(imagePath),
-        ),
+      ),
+      child: Container(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:  [
+            const Icon(Icons.add,color: Colors.white,),
+            SizedBox(height: size*.1),
+            const Text("Click to add\nProfile picture",textAlign:TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w400),)
+          ],
+        )
       ),
     );
   }
@@ -44,10 +49,15 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(size)),
-          color: Colors.white,
-          image: DecorationImage(
-              image: Image.file(File(file!.path.toString())).image, fit: BoxFit.cover)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(size),
+        ),
+        color: Colors.teal,
+        image: DecorationImage(
+          image: Image.file(File(file!.path.toString())).image,
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

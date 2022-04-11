@@ -25,4 +25,20 @@ class DataBaseServices {
       print(e);
     }
   }
+
+  Future<void> enterNewUserDataInDataBase(
+      String _uid, String _email, String _name, String _imageURL) async {
+    try {
+      await _db.collection(USER_COLLECTION).doc(_uid).set(
+        {
+          "email": _email,
+          "image": _imageURL,
+          "name": _name,
+          "last_active": DateTime.now().toUtc(),
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 }
