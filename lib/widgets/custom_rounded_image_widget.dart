@@ -54,7 +54,8 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
         ),
         color: Colors.teal,
         image: DecorationImage(
-          image: Image.file(File(file!.path.toString())).image,
+          // for webpage uncomment the uncomment the under given
+          image: Image.file(File(file!.path!)).image,
           fit: BoxFit.cover,
         ),
       ),
