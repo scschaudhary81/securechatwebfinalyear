@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 const String USER_COLLECTION = "Users";
 const String CHAT_COLLECTION = "Chats";
-const String MESSAGE_COLLECTION = "Messages";
+const String MESSAGE_COLLECTION = "messages";
 
 class DataBaseServices {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -41,4 +41,22 @@ class DataBaseServices {
       print(e);
     }
   }
+  Stream<QuerySnapshot>getChatForUsers(String uid){
+    // to return all the chats in which the given user is involved in
+    return _db.collection(CHAT_COLLECTION)
+        .where("members",arrayContains: uid)
+        .snapshots();
+  }
+  
+  
+  Future<QuerySnapshot>getLastMessage(String _chatId) async{
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatId)
+        .collection(MESSAGE_COLLECTION)
+        .orderBy("sent_time",descending: true)
+        .limit(1)
+        .get();
+  }
+
 }

@@ -8,8 +8,7 @@ import 'package:file_picker/file_picker.dart';
 class CustomRoundedImageWidget extends StatelessWidget {
   final double size;
 
-  const CustomRoundedImageWidget(
-      {required this.size, required Key key})
+  const CustomRoundedImageWidget({required this.size, required Key key})
       : super(key: key);
 
   @override
@@ -22,15 +21,22 @@ class CustomRoundedImageWidget extends StatelessWidget {
         color: Colors.teal,
       ),
       child: Container(
-        child:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:  [
-            const Icon(Icons.add,color: Colors.white,),
-            SizedBox(height: size*.1),
-            const Text("Click to add\nProfile picture",textAlign:TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w400),)
-          ],
-        )
-      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          SizedBox(height: size * .1),
+          const Text(
+            "Click to add\nProfile picture",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+          )
+        ],
+      )),
     );
   }
 }
@@ -60,6 +66,50 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+}
+
+class CustomRoundedImageNetworkWithStatusIndicator extends StatelessWidget {
+  final bool isActive;
+  final String imagePath;
+  final double size;
+
+  CustomRoundedImageNetworkWithStatusIndicator({
+    required this.imagePath,
+    required this.size,
+    required this.isActive,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomRight,
+      children: [
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(size),
+            ),
+            color: Colors.blueGrey,
+            image:  DecorationImage(
+              image: NetworkImage(imagePath),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Container(
+          height: size * 0.20,
+          width: size * 0.20,
+          decoration: BoxDecoration(
+            color: isActive ? Colors.green : Colors.red,
+            borderRadius: BorderRadius.circular(size),
+          ),
+        ),
+      ],
     );
   }
 }
