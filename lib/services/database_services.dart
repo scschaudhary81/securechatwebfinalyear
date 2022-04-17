@@ -1,6 +1,9 @@
 //packages
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//modals
+import '../modals/chat_message.dart';
+
 const String USER_COLLECTION = "Users";
 const String CHAT_COLLECTION = "Chats";
 const String MESSAGE_COLLECTION = "messages";
@@ -41,22 +44,80 @@ class DataBaseServices {
       print(e);
     }
   }
-  Stream<QuerySnapshot>getChatForUsers(String uid){
+
+  Stream<QuerySnapshot> getChatForUsers(String uid) {
     // to return all the chats in which the given user is involved in
-    return _db.collection(CHAT_COLLECTION)
-        .where("members",arrayContains: uid)
+    return _db
+        .collection(CHAT_COLLECTION)
+        .where("members", arrayContains: uid)
         .snapshots();
   }
-  
-  
-  Future<QuerySnapshot>getLastMessage(String _chatId) async{
+
+  Future<QuerySnapshot> getLastMessage(String _chatId) async {
     return _db
         .collection(CHAT_COLLECTION)
         .doc(_chatId)
         .collection(MESSAGE_COLLECTION)
-        .orderBy("sent_time",descending: true)
+        .orderBy("sent_time", descending: true)
         .limit(1)
         .get();
   }
 
+  Stream<QuerySnapshot> streamMessagesFoChat(String _chatId) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatId)
+        .collection(MESSAGE_COLLECTION)
+        .orderBy("sent_time", descending: false)
+        .snapshots();
+  }
+
+  Future<void> deleteChat(String _chatId) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_chatId).delete();
+    } catch (e) {
+      print("deleting chat conversation unsucessfully");
+      print(e);
+    }
+  }
+
+  Future<void> addMessageToChat(
+      String _chatId, ChatMessage _chatMessage) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatId)
+          .collection(MESSAGE_COLLECTION)
+          .add(_chatMessage.jsonChatMessage());
+    } catch (e) {
+      print("Error sending the message");
+      print(e);
+    }
+  }
+
+  Future<void> deleteParticularMessageInAChat(
+      String _chatId, String _messageId) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatId)
+          .collection(MESSAGE_COLLECTION)
+          .doc(_messageId)
+          .delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateChatData(
+      String _chatId, Map<String, dynamic> _chatData) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatId)
+          .update(_chatData);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

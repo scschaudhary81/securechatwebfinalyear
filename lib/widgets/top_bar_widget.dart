@@ -41,6 +41,8 @@ class TopBarWidget extends StatelessWidget {
     return Text(
       _barTitle,
       overflow: TextOverflow.ellipsis,
+      softWrap: true,
+      textAlign: TextAlign.left,
       style: TextStyle(
           color: Colors.teal, fontSize: fontSize, fontWeight: FontWeight.w700),
     );

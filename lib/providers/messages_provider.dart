@@ -16,6 +16,8 @@ import '../providers/authentication_provider.dart';
 import '../modals/chat.dart';
 import '../modals/chat_user.dart';
 import '../modals/chat_message.dart';
+//constants
+import '../constants.dart';
 
 class MessagesProvider extends ChangeNotifier {
   AuthenticationProvider _auth;
@@ -68,6 +70,7 @@ class MessagesProvider extends ChangeNotifier {
         }).toList(),);
         notifyListeners();
       });
+      notifyListeners();
     } catch (e) {
       print("Error getting messages");
       print(e);
