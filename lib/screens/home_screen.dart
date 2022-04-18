@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../screens/chat_screen.dart';
 import '../screens/setting_screen.dart';
 import '../screens/users_screen.dart';
-
+//constants
+import '../constants.dart';
 class HomeScreen extends StatefulWidget {
   static const route = "/home_screen";
 
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white30,
         elevation: 0,
         unselectedItemColor: Colors.black26,
-        selectedItemColor: Colors.teal,
+        selectedItemColor: appMainColor,
         currentIndex: _idx,
         onTap: (_selected) {
           setState(() {

@@ -1,5 +1,7 @@
 //packages
 import 'package:flutter/material.dart';
+//constant
+import '../constants.dart';
 
 class TopBarWidget extends StatelessWidget {
   final String _barTitle;
@@ -44,7 +46,7 @@ class TopBarWidget extends StatelessWidget {
       softWrap: true,
       textAlign: TextAlign.left,
       style: TextStyle(
-          color: Colors.teal, fontSize: fontSize, fontWeight: FontWeight.w700),
+          color: topBarColor, fontSize: fontSize, fontWeight: FontWeight.w700),
     );
   }
 }

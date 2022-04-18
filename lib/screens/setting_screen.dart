@@ -6,7 +6,8 @@ import 'package:get_it/get_it.dart';
 import '../providers/authentication_provider.dart';
 //widgets
 import '../widgets/top_bar_widget.dart';
-
+//constant
+import '../constants.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TopBarWidget("Settings",primaryWidget: IconButton(icon: const Icon(Icons.login_outlined,color: Colors.teal,),onPressed: ()async{
+          TopBarWidget("Settings",primaryWidget: IconButton(icon: const Icon(Icons.login_outlined,color: topBarColor,),onPressed: ()async{
             await _auth.logout();
           },),),
         ],

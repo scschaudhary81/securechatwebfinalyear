@@ -19,6 +19,8 @@ import '../widgets/custom_rounded_image_widget.dart';
 
 //providers
 import '../providers/authentication_provider.dart';
+//constants
+import '../constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String route = "/register_screen";
@@ -68,14 +70,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Text(
                     "Loading",
                     style: TextStyle(
-                        color: Colors.teal,
+                        color: textColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  CircularProgressIndicator(color: Colors.teal),
+                  CircularProgressIndicator(color: loadingColor),
                 ],
               ),
             )
@@ -165,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.teal,
+                  backgroundColor: appMainColor,
                   textColor: Colors.white,
                   fontSize: 16.0);
             } else {
@@ -174,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.teal,
+                  backgroundColor: appMainColor,
                   textColor: Colors.white,
                   fontSize: 16.0);
               setState(() {
@@ -187,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
-                backgroundColor: Colors.teal,
+                backgroundColor: appMainColor,
                 textColor: Colors.white,
                 fontSize: 16.0);
             setState(() {
@@ -200,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
-              backgroundColor: Colors.teal,
+              backgroundColor: appMainColor,
               textColor: Colors.white,
               fontSize: 16.0);
         }

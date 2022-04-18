@@ -21,6 +21,9 @@ import '../services/navigation_services.dart';
 
 //screens
 import '../modals/chat_message.dart';
+
+//constants
+import '../constants.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -79,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
             return const Center(
               child: Text(
                 "No Chats Found",
-                style: TextStyle(color: Colors.teal),
+                style: TextStyle(color: appMainColor),
               ),
             );
           } else {
@@ -92,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
         } else {
           return const Center(
             child: CircularProgressIndicator(
-              color: Colors.teal,
+              color: loadingColor,
             ),
           );
         }

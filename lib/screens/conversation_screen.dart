@@ -22,6 +22,9 @@ import '../widgets/custom_list_view_tiles_user_group.dart';
 import '../widgets/custom_input_fields.dart';
 import '../widgets/custom_rounded_image_widget.dart';
 
+//constants
+import '../constants.dart';
+
 class ConverationScreen extends StatefulWidget {
   Chat chat;
 
@@ -89,14 +92,14 @@ class _ConverationScreenState extends State<ConverationScreen> {
                   fontSize: 25,
                   primaryWidget: IconButton(
                     icon: const Icon(Icons.delete),
-                    color: Colors.teal,
+                    color: topBarColor,
                     onPressed: () {},
                   ),
                   secondaryWidget: Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back),
-                        color: Colors.teal,
+                        color: topBarColor,
                         onPressed: () {
                           _conversationScreenProvider.goBack();
                         },
@@ -125,6 +128,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
     if (_conversationScreenProvider.chatMessages != null) {
       if (_conversationScreenProvider.chatMessages!.length != 0) {
         return Container(
+          padding: EdgeInsets.symmetric(horizontal: _width*0.01),
           height: .74 * _height,
           child: ListView.builder(
               itemCount: _conversationScreenProvider.chatMessages!.length,
@@ -148,14 +152,14 @@ class _ConverationScreenState extends State<ConverationScreen> {
           alignment: Alignment.center,
           child: Text(
             "Be the first to say hi 😄",
-            style: TextStyle(color: Colors.teal),
+            style: TextStyle(color: textColor),
           ),
         );
       }
     } else {
       return const Center(
         child: CircularProgressIndicator(
-          color: Colors.teal,
+          color: loadingColor,
         ),
       );
     }

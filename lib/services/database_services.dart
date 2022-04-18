@@ -29,6 +29,31 @@ class DataBaseServices {
     }
   }
 
+  Future<void> updateUserLastSeenToHideTime(String _uid) async {
+    try {
+      await _db
+          .collection(USER_COLLECTION)
+          .doc(_uid)
+          .update({"last_active": DateTime.now().toUtc()});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String> getUserFromUid(String _uid) async {
+    String toReturn = "";
+    await _db.collection(USER_COLLECTION).doc(_uid).get().then(
+      (_data) {
+        if (_data.exists) {
+          Map<String, dynamic> userData = _data.data()! as Map<String, dynamic>;
+          String name = userData["name"];
+          toReturn = name;
+        }
+      },
+    );
+    return toReturn;
+  }
+
   Future<void> enterNewUserDataInDataBase(
       String _uid, String _email, String _name, String _imageURL) async {
     try {
@@ -112,10 +137,7 @@ class DataBaseServices {
   Future<void> updateChatData(
       String _chatId, Map<String, dynamic> _chatData) async {
     try {
-      await _db
-          .collection(CHAT_COLLECTION)
-          .doc(_chatId)
-          .update(_chatData);
+      await _db.collection(CHAT_COLLECTION).doc(_chatId).update(_chatData);
     } catch (e) {
       print(e);
     }

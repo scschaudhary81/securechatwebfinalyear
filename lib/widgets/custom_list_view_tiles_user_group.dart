@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //widgets
 import '../widgets/custom_rounded_image_widget.dart';
+import '../widgets/text_message_widget.dart';
+import '../widgets/image_message_widget.dart';
 
 //modals
 import '../modals/chat_message.dart';
@@ -41,7 +43,7 @@ class CustomListViewTilesChatGroup extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-            color: appMainColor, fontSize: 18, fontWeight: FontWeight.w500),
+            color: textColor, fontSize: 18, fontWeight: FontWeight.w500),
       ),
       subtitle: isTyping
           ? Row(
@@ -50,7 +52,7 @@ class CustomListViewTilesChatGroup extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SpinKitThreeBounce(
-                  color: appMainColor,
+                  color: loadingColor,
                   size: height * 0.15,
                 ),
               ],
@@ -58,7 +60,7 @@ class CustomListViewTilesChatGroup extends StatelessWidget {
           : Text(
               subTitle,
               style: const TextStyle(
-                  color: appMainColor,
+                  color: textColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w400),
             ),
@@ -73,7 +75,7 @@ class CustomConversationTileWidget extends StatelessWidget {
   final ChatMessage chatMessage;
   final ChatUser sender;
 
-  CustomConversationTileWidget({
+   CustomConversationTileWidget({
     required this.chatMessage,
     required this.height,
     required this.isMyMessage,
@@ -99,11 +101,11 @@ class CustomConversationTileWidget extends StatelessWidget {
                   isActive: sender.wasRecentlyActive())
               : Container(),
           SizedBox(
-            width: width * .05,
+            width: width * .02,
           ),
           chatMessage.type == MessageType.TEXT
-              ? Text(chatMessage.content)
-              : Text(chatMessage.content),
+              ?TextMessageWidget(message: chatMessage, width: width*.5, isMyMessage: isMyMessage, height: height*0.06)
+              : ImageMessageWidget(message: chatMessage, width: width*.55, isMyMessage: isMyMessage, height: height*0.30)
         ],
       ),
     );
