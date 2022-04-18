@@ -74,6 +74,7 @@ class CustomConversationTileWidget extends StatelessWidget {
   final bool isMyMessage;
   final ChatMessage chatMessage;
   final ChatUser sender;
+  final String chatId;
 
    CustomConversationTileWidget({
     required this.chatMessage,
@@ -81,6 +82,7 @@ class CustomConversationTileWidget extends StatelessWidget {
     required this.isMyMessage,
     required this.width,
     required this.sender,
+     required this.chatId,
   });
 
   @override
@@ -97,15 +99,15 @@ class CustomConversationTileWidget extends StatelessWidget {
           !isMyMessage
               ? CustomRoundedImageNetworkWithStatusIndicator(
                   imagePath: sender.imageURL,
-                  size: width * 0.04,
+                  size: width * 0.08,
                   isActive: sender.wasRecentlyActive())
               : Container(),
           SizedBox(
             width: width * .02,
           ),
           chatMessage.type == MessageType.TEXT
-              ?TextMessageWidget(message: chatMessage, width: width*.5, isMyMessage: isMyMessage, height: height*0.06)
-              : ImageMessageWidget(message: chatMessage, width: width*.55, isMyMessage: isMyMessage, height: height*0.30)
+              ?TextMessageWidget(message: chatMessage, width: width*.5, isMyMessage: isMyMessage, height: height*0.06,chatId:chatId)
+              : ImageMessageWidget(message: chatMessage, width: width*.65, isMyMessage: isMyMessage, height: height*0.30,chatId:chatId)
         ],
       ),
     );

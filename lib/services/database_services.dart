@@ -106,6 +106,40 @@ class DataBaseServices {
     }
   }
 
+  Future<void> deleteMessage(String _chatId, String content, String type,
+      String sender_id, DateTime sent_time) async {
+    try {
+      String? id;
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatId)
+          .collection(MESSAGE_COLLECTION)
+          .where("sent_time", isEqualTo: sent_time.toUtc())
+          .where("sender_id", isEqualTo: sender_id)
+          .where("content", isEqualTo: content)
+          .where("type", isEqualTo: type)
+          .get()
+          .then((_value) {
+        if (_value != null) {
+          if (_value.docs.isNotEmpty) {
+            id = _value.docs.first.id;
+          }
+        }
+      });
+      if (id != null) {
+        await _db
+            .collection(CHAT_COLLECTION)
+            .doc(_chatId)
+            .collection(MESSAGE_COLLECTION)
+            .doc(id)
+            .delete();
+      }
+    } catch (e) {
+      print("error deleting message");
+      print(e);
+    }
+  }
+
   Future<void> addMessageToChat(
       String _chatId, ChatMessage _chatMessage) async {
     try {

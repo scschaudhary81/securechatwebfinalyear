@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:final_year_project/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -18,7 +19,7 @@ class CustomRoundedImageWidget extends StatelessWidget {
       width: size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(size)),
-        color: Colors.teal,
+        color: appMainColor,
       ),
       child: Container(
           child: Column(
@@ -58,7 +59,7 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(size),
         ),
-        color: Colors.teal,
+        color: appMainColor,
         image: DecorationImage(
           // for webpage uncomment the uncomment the under given
           //image: Image.memory(file!.bytes!).image,

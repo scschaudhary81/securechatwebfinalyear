@@ -56,15 +56,22 @@ class _ConverationScreenState extends State<ConverationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.height;
+    _height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    _width = MediaQuery
+        .of(context)
+        .size
+        .width;
     _auth = Provider.of<AuthenticationProvider>(context);
     _navigationServices = GetIt.instance.get<NavigationServices>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ConversationScreenProvider>(
-          create: (_) => ConversationScreenProvider(
-              widget.chat.uid, _auth, _messageListScrollController),
+          create: (_) =>
+              ConversationScreenProvider(
+                  widget.chat.uid, _auth, _messageListScrollController),
         ),
       ],
       child: _actualUi(),
@@ -79,12 +86,12 @@ class _ConverationScreenState extends State<ConverationScreen> {
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(
-                vertical: _height * 0.02, horizontal: 0.03),
-            height: _height * .98,
+                vertical: _height * 0.01, horizontal: 0.03),
+            height: _height * .99,
             width: _width * .97,
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TopBarWidget(
@@ -93,7 +100,9 @@ class _ConverationScreenState extends State<ConverationScreen> {
                   primaryWidget: IconButton(
                     icon: const Icon(Icons.delete),
                     color: topBarColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      _conversationScreenProvider.deleteChat();
+                    },
                   ),
                   secondaryWidget: Row(
                     children: [
@@ -116,6 +125,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
                   ),
                 ),
                 _messagesListView(),
+                _sendMessageForm(),
               ],
             ),
           ),
@@ -128,16 +138,18 @@ class _ConverationScreenState extends State<ConverationScreen> {
     if (_conversationScreenProvider.chatMessages != null) {
       if (_conversationScreenProvider.chatMessages!.length != 0) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: _width*0.01),
-          height: .74 * _height,
+          padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
+          height: .70 * _height,
           child: ListView.builder(
+            controller:_messageListScrollController,
               itemCount: _conversationScreenProvider.chatMessages!.length,
               itemBuilder: (BuildContext_context, int _idx) {
                 ChatMessage _message =
-                    _conversationScreenProvider.chatMessages![_idx];
+                _conversationScreenProvider.chatMessages![_idx];
                 bool isMyMessage = _message.senderId == _auth.user.uid;
                 return CustomConversationTileWidget(
-                  width: _width * .80,
+                  chatId: widget.chat.uid,
+                  width: _width,
                   height: _height,
                   chatMessage: _message,
                   isMyMessage: isMyMessage,
@@ -163,5 +175,95 @@ class _ConverationScreenState extends State<ConverationScreen> {
         ),
       );
     }
+  }
+
+  Widget _sendMessageForm() {
+    return Container(
+      height: _height * 0.10,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(100),
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: _width * .03,
+        vertical: _height * 0.02,
+      ),
+      child: Form(
+        key: _formState,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _messageTextField(),
+            _imageMessagePickerButton(),
+            _sendMessageButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _messageTextField() {
+    return SizedBox(
+      width: _width * 0.65,
+      height: _height * .07,
+      child: CustomInputField(
+        onSaved: (_value) {
+          _conversationScreenProvider.message = _value;
+        },
+        hintText: "Enter any message",
+        isObscured: false,
+        regExp: r"^(?!\s*$).+",
+      ),
+    );
+  }
+
+  Widget _sendMessageButton() {
+    double _size = _height * .05;
+    return Container(
+      height: _size,
+      width: _size,
+      child: FloatingActionButton(
+        heroTag: null,
+        backgroundColor: appMainColor,
+        onPressed: () {
+          _formState.currentState!.save();
+          if (_conversationScreenProvider.message != null) {
+            if (_conversationScreenProvider.message != "" &&
+                validateStringInput(_conversationScreenProvider.message)!="") {
+              _conversationScreenProvider.sentTextMessage();
+              _formState.currentState!.reset();
+            }
+            else{
+              _formState.currentState!.reset();
+            }
+          }
+        },
+        child: const Icon(Icons.send_sharp, color: sendButtonColor),
+      ),
+    );
+  }
+
+  Widget _imageMessagePickerButton() {
+    double _size = _height * 0.05;
+    return Container(
+      height: _size,
+      width: _size,
+      child: FloatingActionButton(
+        onPressed: () {
+          _conversationScreenProvider.sendImageMessage();
+        },
+        backgroundColor: appMainColor,
+        child: const Icon(Icons.camera_enhance),
+      ),
+    );
+  }
+
+  String validateStringInput(String s) {
+    while (s.length > 0 && s[0] == " " && s[s.length - 1] == " ")
+      s=s.trim();
+    return s;
   }
 }

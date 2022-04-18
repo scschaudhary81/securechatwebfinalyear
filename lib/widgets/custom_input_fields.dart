@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+//constants
+import '../constants.dart';
+import '../constants.dart';
 
 class CustomInputField extends StatelessWidget {
   final Function(String) onSaved;
@@ -13,23 +15,25 @@ class CustomInputField extends StatelessWidget {
     required this.isObscured,
     required this.regExp,
   });
-
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onSaved: (_input) => onSaved(_input!),
-      cursorColor: Colors.blue,
-      style:const TextStyle(color: Colors.teal),
-      obscureText: isObscured,
-      validator: (_value){
-         return RegExp(regExp).hasMatch(_value!) ? null : "Enter a valid value.";
-      },
-      decoration: InputDecoration(
-        fillColor: Colors.black12,
-        filled: true,
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.black45),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none,),
+
+    return Container(
+      child: TextFormField(
+        onSaved: (_input) => onSaved(_input!),
+        cursorColor: Colors.black,
+        style:const TextStyle(color: formFieldTextColor),
+        obscureText: isObscured,
+        validator: (_value){
+           return RegExp(regExp).hasMatch(_value!) ? null : "Enter a valid value.";
+        },
+        decoration: InputDecoration(
+          fillColor: Colors.black12,
+          filled: true,
+          hintText: hintText,
+          hintStyle: const TextStyle(color: appMainColor),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none,),
+        ),
       ),
     );
   }

@@ -17,6 +17,9 @@ import '../providers/authentication_provider.dart';
 //screens
 import '../screens/registration_screen.dart';
 
+//constants
+import '../constants.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static const String route = "/log";
@@ -85,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return const Text(
       "Secure Chat",
       style: TextStyle(
-          fontSize: 50, color: Colors.teal, fontWeight: FontWeight.w600),
+          fontSize: 50, color: appMainColor, fontWeight: FontWeight.w600),
     );
   }
 
@@ -140,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.teal,
+                    backgroundColor: appMainColor,
                     textColor: Colors.white,
                     fontSize: 16.0);
               }
@@ -160,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
         alignment: Alignment.center,
         child: const Text(
           "Don't have and account",
-          style: TextStyle(color: Colors.teal),
+          style: TextStyle(color: appMainColor),
         ),
       ),
       onTap: () {

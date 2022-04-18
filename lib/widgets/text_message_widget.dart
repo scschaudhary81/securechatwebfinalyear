@@ -18,12 +18,14 @@ class TextMessageWidget extends StatefulWidget {
   final double height;
   final double width;
   final ChatMessage message;
+  final String chatId;
 
   TextMessageWidget({
     required this.message,
     required this.width,
     required this.isMyMessage,
     required this.height,
+    required this.chatId,
   });
 
   @override
@@ -44,68 +46,80 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
         _userName = _value;
       });
     });
-    return Container(
-      height: widget.height + (widget.message.content.length / 20 * 8.0),
-      width: widget.width * .8,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: widget.isMyMessage ? const BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          topLeft: Radius.circular(20),
-
-          bottomRight: Radius.circular(20),
-        ):const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+    return InkWell(
+      onLongPress: () {
+        print("called");
+        _db.deleteMessage(
+            widget.chatId,
+            widget.message.content,
+            widget.message.type == MessageType.TEXT ? "text" : "image",
+            widget.message.senderId,
+            widget.message.sentTime);
+      },
+      child: Container(
+        height: widget.height + (widget.message.content.length / 20 * 8.0),
+        width: widget.width,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
         ),
-        gradient: LinearGradient(
-          colors: widget.isMyMessage ? blueColorScheme : greyColorScheme,
-          stops: const [0.30, 0.80],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: widget.height * 0.10,
-          ),
-          widget.isMyMessage
-              ? const Text(
-                  "You",
-                  style: TextStyle(color: secondaryMessageColor, fontSize: 8),
+        decoration: BoxDecoration(
+          borderRadius: widget.isMyMessage
+              ? const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  topLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 )
-              : Text(
-                  _userName,
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+          gradient: LinearGradient(
+            colors: widget.isMyMessage ? blueColorScheme : greyColorScheme,
+            stops: const [0.30, 0.80],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: widget.height * 0.10,
+            ),
+            widget.isMyMessage
+                ? const Text(
+                    "You",
+                    style: TextStyle(color: secondaryMessageColor, fontSize: 8),
+                  )
+                : Text(
+                    _userName,
+                    style: const TextStyle(
+                        color: secondaryMessageColor, fontSize: 8),
+                  ),
+            Text(
+              widget.message.content,
+              style: const TextStyle(color: messageColor, fontSize: 12),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(),
+                Text(
+                  timeago.format(widget.message.sentTime),
                   style: const TextStyle(
                       color: secondaryMessageColor, fontSize: 8),
                 ),
-          Text(
-            widget.message.content,
-            style: const TextStyle(color: messageColor),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(),
-              Text(
-                timeago.format(widget.message.sentTime),
-                style:
-                    const TextStyle(color: secondaryMessageColor, fontSize: 8),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: widget.height * 0.04,
-          ),
-        ],
+              ],
+            ),
+            SizedBox(
+              height: widget.height * 0.04,
+            ),
+          ],
+        ),
       ),
     );
   }

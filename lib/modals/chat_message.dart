@@ -49,7 +49,7 @@ class ChatMessage {
       "content":content,
       "type":_messageType,
       "sender_id":senderId,
-      "sent_time":Timestamp.fromDate(sentTime),
+      "sent_time":sentTime,
     };
   }
 }

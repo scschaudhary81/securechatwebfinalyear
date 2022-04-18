@@ -34,7 +34,11 @@ class ConversationScreenProvider extends ChangeNotifier {
   String? _message;
 
   String get message {
-    return message;
+    return _message!;
+  }
+
+  set message(String _value) {
+    _message = _value;
   }
 
   ConversationScreenProvider(
@@ -69,6 +73,12 @@ class ConversationScreenProvider extends ChangeNotifier {
           ).toList();
           chatMessages = _messages;
           notifyListeners();
+          WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+            if (_messagesListViewController.hasClients) {
+              _messagesListViewController
+                  .jumpTo(_messagesListViewController.position.maxScrollExtent);
+            }
+          });
           //add scroll to bottom call
         },
       );
@@ -88,28 +98,30 @@ class ConversationScreenProvider extends ChangeNotifier {
       ChatMessage _messageToSend = ChatMessage(
         senderId: _auth.user.uid,
         content: _message!,
-        sentTime: DateTime.now(),
+        sentTime: DateTime.now().toUtc(),
         type: MessageType.TEXT,
       );
       _db.addMessageToChat(_chatId, _messageToSend);
     }
   }
-  void sendImageMessage() async{
-    try{
-      PlatformFile? _file  = await _media.returnPickedFile();
-      if(_file != null){
-        String? _imageDownloadURl = await _cloudStorage.saveChatImageFirebaseStorage(_chatId,_auth.user.uid, _file);
-        if(_imageDownloadURl!=null){
+
+  void sendImageMessage() async {
+    try {
+      PlatformFile? _file = await _media.returnPickedFile();
+      if (_file != null) {
+        String? _imageDownloadURl = await _cloudStorage
+            .saveChatImageFirebaseStorage(_chatId, _auth.user.uid, _file);
+        if (_imageDownloadURl != null) {
           ChatMessage _messageToSend = ChatMessage(
             senderId: _auth.user.uid,
             content: _imageDownloadURl!,
-            sentTime: DateTime.now(),
+            sentTime: DateTime.now().toUtc(),
             type: MessageType.IMAGE,
           );
           _db.addMessageToChat(_chatId, _messageToSend);
         }
       }
-    }catch(e){
+    } catch (e) {
       print("error sending image message with error");
       print(e);
     }

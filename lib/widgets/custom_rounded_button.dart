@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+//constants
+import '../constants.dart';
 class CustomRoundedButton extends StatelessWidget {
   final String name;
   final double height;
@@ -23,7 +24,7 @@ class CustomRoundedButton extends StatelessWidget {
         onPressed: () {
           onPressed();
         },
-        color: Colors.teal,
+        color: appMainColor,
         child: Text(
           name,
           style: const TextStyle(
