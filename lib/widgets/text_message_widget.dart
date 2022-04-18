@@ -57,7 +57,7 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
             widget.message.sentTime);
       },
       child: Container(
-        height: widget.height + (widget.message.content.length / 20 * 8.0),
+        height: widget.height + (widget.message.content.length / 10 * 8.0),
         width: widget.width,
         padding: const EdgeInsets.symmetric(
           horizontal: 20,

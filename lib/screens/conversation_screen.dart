@@ -182,7 +182,6 @@ class _ConverationScreenState extends State<ConverationScreen> {
       height: _height * 0.10,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(100),
       ),
       margin: EdgeInsets.symmetric(
@@ -206,7 +205,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
   }
 
   Widget _messageTextField() {
-    return SizedBox(
+    return Container(
       width: _width * 0.65,
       height: _height * .07,
       child: CustomInputField(
@@ -232,7 +231,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
           _formState.currentState!.save();
           if (_conversationScreenProvider.message != null) {
             if (_conversationScreenProvider.message != "" &&
-                validateStringInput(_conversationScreenProvider.message)!="") {
+                validateStringInput(_conversationScreenProvider.message)!=""&&_conversationScreenProvider.message.length<70) {
               _conversationScreenProvider.sentTextMessage();
               _formState.currentState!.reset();
             }
