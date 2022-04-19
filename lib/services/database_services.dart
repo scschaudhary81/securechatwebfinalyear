@@ -96,6 +96,9 @@ class DataBaseServices {
         .orderBy("sent_time", descending: false)
         .snapshots();
   }
+  Stream<DocumentSnapshot> streamIsActivity(String _chatID){
+    return _db.collection(CHAT_COLLECTION).doc(_chatID).snapshots();
+  }
 
   Future<void> deleteChat(String _chatId) async {
     try {

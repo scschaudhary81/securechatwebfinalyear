@@ -1,5 +1,4 @@
 //packages
-import 'package:final_year_project/screens/conversation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get_it/get_it.dart';
@@ -21,9 +20,11 @@ import '../services/navigation_services.dart';
 
 //screens
 import '../modals/chat_message.dart';
+import '../screens/conversation_screen.dart';
 
 //constants
 import '../constants.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 

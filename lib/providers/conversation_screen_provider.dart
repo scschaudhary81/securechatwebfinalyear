@@ -24,6 +24,10 @@ class ConversationScreenProvider extends ChangeNotifier {
   late MediaServices _media;
   late NavigationServices _navigation;
   late StreamSubscription _conversationScreenSubscription;
+  late StreamSubscription _keyBoardEventStream;
+  late KeyboardVisibilityController _keyboardVisibilityController;
+
+  bool? isTyping;
 
   AuthenticationProvider _auth;
   ScrollController _messagesListViewController;
@@ -47,7 +51,10 @@ class ConversationScreenProvider extends ChangeNotifier {
     _navigation = GetIt.instance.get<NavigationServices>();
     _media = GetIt.instance.get<MediaServices>();
     _cloudStorage = GetIt.instance.get<CloudStorageServices>();
+    _keyboardVisibilityController = KeyboardVisibilityController();
     listenToIncomingMessages();
+    _listenToKeyBoardChanges();
+    _updateActivity();
   }
 
   @override
@@ -55,9 +62,26 @@ class ConversationScreenProvider extends ChangeNotifier {
     _conversationScreenSubscription.cancel();
     super.dispose();
   }
-
   void goBack() {
     _navigation.goBack();
+  }
+
+
+ void _updateActivity(){
+    _db.streamIsActivity(_chatId).listen((_event) {
+      bool? _value = _event.get("is_activity");
+      if(_value!=null){
+        print(_value);
+        isTyping = _value;
+      }
+    });
+ }
+
+  void _listenToKeyBoardChanges() {
+    _keyBoardEventStream =
+        _keyboardVisibilityController.onChange.listen((_event) {
+      _db.updateChatData(_chatId, {"is_activity": _event});
+    });
   }
 
   void listenToIncomingMessages() {

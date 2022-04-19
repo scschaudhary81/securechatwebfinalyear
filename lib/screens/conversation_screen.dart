@@ -1,5 +1,6 @@
 //packages
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -56,22 +57,18 @@ class _ConverationScreenState extends State<ConverationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    _width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    _height = MediaQuery.of(context).size.height;
+    _width = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
     _navigationServices = GetIt.instance.get<NavigationServices>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ConversationScreenProvider>(
-          create: (_) =>
-              ConversationScreenProvider(
-                  widget.chat.uid, _auth, _messageListScrollController),
+          create: (_) => ConversationScreenProvider(
+            widget.chat.uid,
+            _auth,
+            _messageListScrollController,
+          ),
         ),
       ],
       child: _actualUi(),
@@ -125,6 +122,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
                   ),
                 ),
                 _messagesListView(),
+                _isTypingWidget(),
                 _sendMessageForm(),
               ],
             ),
@@ -141,11 +139,11 @@ class _ConverationScreenState extends State<ConverationScreen> {
           padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
           height: .70 * _height,
           child: ListView.builder(
-            controller:_messageListScrollController,
+              controller: _messageListScrollController,
               itemCount: _conversationScreenProvider.chatMessages!.length,
-              itemBuilder: (BuildContext_context, int _idx) {
+              itemBuilder: (BuildContext _context, int _idx) {
                 ChatMessage _message =
-                _conversationScreenProvider.chatMessages![_idx];
+                    _conversationScreenProvider.chatMessages![_idx];
                 bool isMyMessage = _message.senderId == _auth.user.uid;
                 return CustomConversationTileWidget(
                   chatId: widget.chat.uid,
@@ -231,11 +229,12 @@ class _ConverationScreenState extends State<ConverationScreen> {
           _formState.currentState!.save();
           if (_conversationScreenProvider.message != null) {
             if (_conversationScreenProvider.message != "" &&
-                validateStringInput(_conversationScreenProvider.message)!=""&&_conversationScreenProvider.message.length<70) {
+                validateStringInput(_conversationScreenProvider.message) !=
+                    "" &&
+                _conversationScreenProvider.message.length < 70) {
               _conversationScreenProvider.sentTextMessage();
               _formState.currentState!.reset();
-            }
-            else{
+            } else {
               _formState.currentState!.reset();
             }
           }
@@ -247,7 +246,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
 
   Widget _imageMessagePickerButton() {
     double _size = _height * 0.05;
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: FloatingActionButton(
@@ -261,8 +260,25 @@ class _ConverationScreenState extends State<ConverationScreen> {
   }
 
   String validateStringInput(String s) {
-    while (s.length > 0 && s[0] == " " && s[s.length - 1] == " ")
-      s=s.trim();
+    while (s.length > 0 && s[0] == " " && s[s.length - 1] == " ") s = s.trim();
     return s;
+  }
+
+  Widget _isTypingWidget() {
+    return _conversationScreenProvider.isTyping != null &&
+            _conversationScreenProvider.isTyping!
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              SizedBox(
+                width: 25,
+              ),
+              SpinKitThreeBounce(
+                color: loadingColor,
+                size: 20,
+              ),
+            ],
+          )
+        : Container();
   }
 }
