@@ -2,6 +2,7 @@ import 'dart:async';
 
 //packages
 import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -11,7 +12,7 @@ import '../services/database_services.dart';
 import '../services/media_services.dart';
 import '../services/cloud_storage_services.dart';
 import '../services/navigation_services.dart';
-
+import '../services/encryption_service.dart';
 //providers
 import '../providers/authentication_provider.dart';
 
@@ -121,7 +122,7 @@ class ConversationScreenProvider extends ChangeNotifier {
     if (_message != null) {
       ChatMessage _messageToSend = ChatMessage(
         senderId: _auth.user.uid,
-        content: _message!,
+        content: EncryptionService.encryptAES(_message!),
         sentTime: DateTime.now().toUtc(),
         type: MessageType.TEXT,
       );

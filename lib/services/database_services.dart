@@ -29,12 +29,12 @@ class DataBaseServices {
     }
   }
 
-  Future<void> updateUserLastSeenToHideTime(String _uid) async {
+  Future<void> updateUserLastSeenToHideTime(String _uid,DateTime _time) async {
     try {
       await _db
           .collection(USER_COLLECTION)
           .doc(_uid)
-          .update({"last_active": DateTime.now().toUtc()});
+          .update({"last_active": _time.toUtc()});
     } catch (e) {
       print(e);
     }
@@ -176,6 +176,22 @@ class DataBaseServices {
     try {
       await _db.collection(CHAT_COLLECTION).doc(_chatId).update(_chatData);
     } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String?>getUserImageUrl(String _uID)async{
+    try{
+      String? imageURL;
+      await _db.collection(USER_COLLECTION).doc(_uID).get().then((_entry) {
+        if(_entry.exists){
+          Map<String,dynamic>_data = _entry.data() as Map<String,dynamic>;
+          imageURL = _data["image"];
+        }
+      });
+      return imageURL;
+    }catch(e){
+      print("error getting user image url");
       print(e);
     }
   }

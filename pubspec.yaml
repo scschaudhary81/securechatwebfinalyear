@@ -46,6 +46,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.2.0
   animated_text_kit: ^4.2.1
   fluttertoast: ^8.0.9
+  encrypt: ^5.0.1
 
 dev_dependencies:
   flutter_test:

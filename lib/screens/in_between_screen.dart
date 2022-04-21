@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 //provider
 import '../providers/authentication_provider.dart';
 
+//constants
+import '../constants.dart';
+
 class InBetweenScreen extends StatefulWidget {
   static const route = "/in_between_screen";
   InBetweenScreen({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class _InBetweenScreenState extends State<InBetweenScreen> {
       body: Container(
         width: double.infinity,
         alignment: Alignment.center,
-        child:const  CircularProgressIndicator(color: Colors.teal,),
+        child:const  CircularProgressIndicator(color: appMainColor,),
       ),
     );
   }

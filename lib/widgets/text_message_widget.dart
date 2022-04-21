@@ -12,6 +12,7 @@ import '../constants.dart';
 
 //services
 import '../services/database_services.dart';
+import '../services/encryption_service.dart';
 
 class TextMessageWidget extends StatefulWidget {
   final bool isMyMessage;
@@ -100,7 +101,7 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
                         color: secondaryMessageColor, fontSize: 8),
                   ),
             Text(
-              widget.message.content,
+              EncryptionService.decryptAES(widget.message.content),
               style: const TextStyle(color: messageColor, fontSize: 12),
             ),
             Row(

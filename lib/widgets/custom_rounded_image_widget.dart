@@ -2,7 +2,10 @@
 
 import 'dart:io';
 
-import 'package:final_year_project/constants.dart';
+//constants
+import '../constants.dart';
+
+//packages
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -52,19 +55,26 @@ class CustomRoundedImageFileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(size),
-        ),
-        color: appMainColor,
-        image: DecorationImage(
-          // for webpage uncomment the uncomment the under given
-          //image: Image.memory(file!.bytes!).image,
-          image: Image.file(File(file!.path!)).image,
-          fit: BoxFit.cover,
+    return Card(
+      shadowColor: appMainColor,
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(size * 1.2),
+      ),
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(size),
+          ),
+          color: appMainColor,
+          image: DecorationImage(
+            // for webpage uncomment the uncomment the under given
+            //image: Image.memory(file!.bytes!).image,
+            image: Image.file(File(file!.path!)).image,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -96,7 +106,7 @@ class CustomRoundedImageNetworkWithStatusIndicator extends StatelessWidget {
               Radius.circular(size),
             ),
             color: Colors.blueGrey,
-            image:  DecorationImage(
+            image: DecorationImage(
               image: NetworkImage(imagePath),
               fit: BoxFit.cover,
             ),
@@ -111,6 +121,43 @@ class CustomRoundedImageNetworkWithStatusIndicator extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CustomRoundedImageFileWidgetForSettingPage extends StatelessWidget {
+  final String imageURl;
+  final double size;
+
+  CustomRoundedImageFileWidgetForSettingPage({
+    required this.size,
+    required this.imageURl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shadowColor: appMainColor,
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(size * 1.2),
+      ),
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(size),
+          ),
+          color: appMainColor,
+          image: DecorationImage(
+            // for webpage uncomment the uncomment the under given
+            //image: Image.memory(file!.bytes!).image,
+            image: NetworkImage(imageURl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
     );
   }
 }

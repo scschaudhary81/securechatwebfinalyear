@@ -60,9 +60,7 @@ class CustomListViewTilesChatGroup extends StatelessWidget {
           : Text(
               subTitle,
               style: const TextStyle(
-                  color: textColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400),
+                  color: textColor, fontSize: 12, fontWeight: FontWeight.w400),
             ),
     );
   }
@@ -76,13 +74,13 @@ class CustomConversationTileWidget extends StatelessWidget {
   final ChatUser sender;
   final String chatId;
 
-   CustomConversationTileWidget({
+  CustomConversationTileWidget({
     required this.chatMessage,
     required this.height,
     required this.isMyMessage,
     required this.width,
     required this.sender,
-     required this.chatId,
+    required this.chatId,
   });
 
   @override
@@ -106,8 +104,18 @@ class CustomConversationTileWidget extends StatelessWidget {
             width: width * .02,
           ),
           chatMessage.type == MessageType.TEXT
-              ?TextMessageWidget(message: chatMessage, width: width*.5, isMyMessage: isMyMessage, height: height*0.06,chatId:chatId)
-              : ImageMessageWidget(message: chatMessage, width: width*.65, isMyMessage: isMyMessage, height: height*0.30,chatId:chatId)
+              ? TextMessageWidget(
+                  message: chatMessage,
+                  width: width * .5,
+                  isMyMessage: isMyMessage,
+                  height: height * 0.06,
+                  chatId: chatId)
+              : ImageMessageWidget(
+                  message: chatMessage,
+                  width: width * .65,
+                  isMyMessage: isMyMessage,
+                  height: height * 0.30,
+                  chatId: chatId)
         ],
       ),
     );

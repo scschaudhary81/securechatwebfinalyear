@@ -17,6 +17,7 @@ import '../modals/chat_user.dart';
 
 //services
 import '../services/navigation_services.dart';
+import '../services/encryption_service.dart';
 
 //screens
 import '../modals/chat_message.dart';
@@ -111,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
     String _subTitle = "No Messages";
     if (_chat.messages.isNotEmpty) {
       _subTitle = _chat.messages.first.type == MessageType.TEXT
-          ? _chat.messages.first.content
+          ? EncryptionService.decryptAES(_chat.messages.first.content)
           : "Image File";
     }
     return CustomListViewTilesChatGroup(

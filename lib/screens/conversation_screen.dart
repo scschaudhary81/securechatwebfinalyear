@@ -158,9 +158,11 @@ class _ConverationScreenState extends State<ConverationScreen> {
               }),
         );
       } else {
-        return const Align(
+        return  Container(
+          padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
+          height: .70 * _height,
           alignment: Alignment.center,
-          child: Text(
+          child: const Text(
             "Be the first to say hi 😄",
             style: TextStyle(color: textColor),
           ),

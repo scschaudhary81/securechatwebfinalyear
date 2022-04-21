@@ -19,6 +19,7 @@ class AuthenticationProvider extends ChangeNotifier {
   late final NavigationServices _navigationServices;
   late final DataBaseServices _dataBaseServices;
   late ChatUser user;
+  bool isOffline  = false;
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
