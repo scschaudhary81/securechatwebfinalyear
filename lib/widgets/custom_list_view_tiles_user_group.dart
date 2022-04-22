@@ -121,3 +121,45 @@ class CustomConversationTileWidget extends StatelessWidget {
     );
   }
 }
+
+class CustomListViewTileSearchUser extends StatelessWidget {
+  final double height;
+  final String title;
+  final String subTitle;
+  final String imagePath;
+  final bool isActive;
+  final bool isSelected;
+  final Function onPress;
+
+  CustomListViewTileSearchUser({
+    required this.height,
+    required this.title,
+    required this.imagePath,
+    required this.subTitle,
+    required this.isActive,
+    required this.onPress,
+    required this.isSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      trailing: isSelected
+          ? const Icon(
+              Icons.check,
+              color: appMainColor,
+            )
+          : null,
+      onTap:()=>onPress(),
+      minVerticalPadding: height*0.20,
+      leading: CustomRoundedImageNetworkWithStatusIndicator(
+        isActive: isActive,
+        imagePath: imagePath,
+        size: height/2,
+      ),
+      title: Text(title,style: const TextStyle(color: textColor,fontWeight: FontWeight.w500,fontSize: 18),),
+      subtitle: Text(subTitle,style: const TextStyle(color: secondaryTextColor,fontWeight: FontWeight.w400,fontSize: 12),),
+
+    );
+  }
+}

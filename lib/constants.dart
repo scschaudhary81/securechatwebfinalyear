@@ -11,3 +11,5 @@ const Color messageColor = Colors.white;
 const Color secondaryMessageColor = Colors.white70;
 const Color formFieldTextColor = Colors.black;
 const Color sendButtonColor = Colors.white;
+const Color formFillColorSearch = Colors.black12;
+const Color secondaryTextColor = Colors.black38;

@@ -142,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
            Text(
-            _auth.isOffline?"Online":"Offline",
+            _auth.isOffline?"Private":"Public",
             style: const TextStyle(
                 color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
           ),
