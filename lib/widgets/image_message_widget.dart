@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+//providers
+import '../providers/authentication_provider.dart';
 
 //packages
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:get_it/get_it.dart';
 
@@ -35,9 +38,11 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
   late DataBaseServices _db;
 
   String _userName = "User";
+  late AuthenticationProvider _auth;
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<AuthenticationProvider>(context);
     DecorationImage _image = DecorationImage(
       image: NetworkImage(
         widget.message.content,
@@ -53,6 +58,7 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
     });
     return InkWell(
       onLongPress: () {
+        if (_auth.user.uid != widget.message.senderId) return;
         print("called");
         _db.deleteMessage(
             widget.chatId,
@@ -93,7 +99,7 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: widget.height * .7,
+                  height: widget.height,
                   width: widget.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -104,11 +110,11 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
             ),
           ),
           Container(
-            height: widget.height * .7,
+            height: widget.height,
             width: widget.width,
             padding: EdgeInsets.only(
                 top: widget.height * .06,
-                bottom: widget.height * .02,
+                bottom: widget.height * .01,
                 left: widget.width * .05,
                 right: widget.width * .05),
             child: Column(
@@ -120,12 +126,12 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
                     ? const Text(
                         "You",
                         style: TextStyle(
-                            color: secondaryMessageColor, fontSize: 8),
+                            color: secondaryMessageColor, fontSize: 20),
                       )
                     : Text(
                         _userName,
                         style: const TextStyle(
-                            color: secondaryMessageColor, fontSize: 8),
+                            color: secondaryMessageColor, fontSize: 20),
                       ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +141,7 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
                     Text(
                       timeago.format(widget.message.sentTime),
                       style: const TextStyle(
-                          color: secondaryMessageColor, fontSize: 8),
+                          color: secondaryMessageColor, fontSize: 12),
                     ),
                   ],
                 )

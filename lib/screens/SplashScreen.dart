@@ -77,9 +77,22 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  // Future<void> _setup() async {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   await Firebase.initializeApp();
+  //   _registerServices();
+  // }
   Future<void> _setup() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: FirebaseOptions.fromMap(const {
+        "apiKey": "AIzaSyDSUGyAGZ52ZsI8Bn0PtDnAl4JUEgiZKp8",
+        "projectId": "finalyearprojectwebapp",
+        "messagingSenderId": "657724828925",
+        "appId": "1:657724828925:web:eb125a1e97da6ea4efe294",
+        "storageBucket": "finalyearprojectwebapp.appspot.com",
+      }),
+    );
     _registerServices();
   }
 

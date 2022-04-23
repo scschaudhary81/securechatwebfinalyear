@@ -19,7 +19,8 @@ class CloudStorageServices {
           .ref()
           .child('images/users/$_uid/profile.${_file.extension}');
       // add for the web here
-      UploadTask _task = _ref.putFile(File(_file.path!));
+      //UploadTask _task = _ref.putFile(File(_file.path!));
+      UploadTask _task = _ref.putData(_file.bytes!);
       return _task.then((_result) => _result.ref.getDownloadURL());
     } catch (e) {
       print(e);
@@ -32,7 +33,8 @@ class CloudStorageServices {
       Reference _ref = _firebaseStorage.ref().child(
           'images/chats/$_chatId/${_uid}_${Timestamp.now().microsecondsSinceEpoch}.${_file.extension}');
       // add for the web
-      UploadTask _task = _ref.putFile(File(_file.path!));
+      //UploadTask _task = _ref.putFile(File(_file.path!));
+      UploadTask _task = _ref.putData(_file.bytes!);
       return _task.then((_result) => _result.ref.getDownloadURL());
     } catch (e) {
       print(e);

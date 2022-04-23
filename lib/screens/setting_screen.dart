@@ -55,11 +55,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           _userInfoWidget(),
           SizedBox(
-            height: _height * .01,
+            height: _height * .005,
           ),
           _secureButton(),
           SizedBox(
-            height: _height * .03,
+            height: _height * .01,
           ),
           _logOutButton(),
         ],
@@ -72,9 +72,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomRoundedImageFileWidgetForSettingPage(
-            size: _height * .20, imageURl: _auth.user.imageURL),
+            size: _height * .30, imageURl: _auth.user.imageURL),
         SizedBox(
-          height: _height * 0.01,
+          height: _height * 0.005,
         ),
         Card(
           shape:
@@ -82,8 +82,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           shadowColor: appMainColor,
           elevation: .1,
           child: Container(
-            height: _height * .12,
-            width: _width * .70,
+            height: _height * .20,
+            width: _width * .45,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -102,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 10),
                     Text(
                       _auth.user.name,
-                      style: const TextStyle(color: textColor, fontSize: 25),
+                      style: const TextStyle(color: textColor, fontSize: 40),
                     ),
                   ],
                 ),
@@ -119,7 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 10),
                     Text(
                       _auth.user.email,
-                      style: const TextStyle(color: textColor, fontSize: 12),
+                      style: const TextStyle(color: textColor, fontSize: 15),
                     ),
                   ],
                 ),
@@ -144,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
            Text(
             _auth.isOffline?"Private":"Public",
             style: const TextStyle(
-                color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+                color: textColor, fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: _height * 0.01,
@@ -174,14 +174,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _logOutButton() {
     return MaterialButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      height: _height*0.08,
+      minWidth: _width*0.15,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       color: appMainColor,
       onPressed: () async {
         await _auth.logout();
       },
       child: const Text(
         "Log out",
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white,fontSize: 17),
       ),
     );
   }

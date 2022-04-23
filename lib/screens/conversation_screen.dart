@@ -1,5 +1,6 @@
 //packages
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -79,52 +80,70 @@ class _ConverationScreenState extends State<ConverationScreen> {
     return Builder(builder: (BuildContext _context) {
       _conversationScreenProvider =
           _context.watch<ConversationScreenProvider>();
-      return Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                vertical: _height * 0.01, horizontal: 0.03),
-            height: _height * .99,
-            width: _width * .97,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TopBarWidget(
-                  widget.chat.title(),
-                  fontSize: 25,
-                  primaryWidget: IconButton(
-                    icon: const Icon(Icons.delete),
-                    color: topBarColor,
-                    onPressed: () {
-                      _conversationScreenProvider.deleteChat();
-                    },
-                  ),
-                  secondaryWidget: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
+      return RawKeyboardListener(
+        autofocus: true,
+        focusNode: FocusNode(),
+        includeSemantics: true,
+        onKey: (_event){
+                if(_event.isKeyPressed(LogicalKeyboardKey.enter)||_event.isKeyPressed(LogicalKeyboardKey.numpadEnter)){
+                  _conversationScreenProvider.isTyping = false;
+                  _conversationScreenProvider.listenToKeyBoardChanges();
+                  print("sssss");
+                  _conversationScreenProvider.sendImageMessage();
+                }else{
+                  print("s");
+                  _conversationScreenProvider.isTyping = true;
+                  _conversationScreenProvider.listenToKeyBoardChanges();
+                }
+
+        },
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: _height * 0.01, horizontal: 0.03),
+              height: _height * .99,
+              width: _width * .97,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                 TopBarWidget(
+                      widget.chat.title(),
+                      fontSize: 25,
+                      primaryWidget: IconButton(
+                        icon: const Icon(Icons.delete),
                         color: topBarColor,
                         onPressed: () {
-                          _conversationScreenProvider.goBack();
+                          _conversationScreenProvider.deleteChat();
                         },
                       ),
-                      const SizedBox(
-                        width: 10,
+                      secondaryWidget: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            color: topBarColor,
+                            onPressed: () {
+                              _conversationScreenProvider.goBack();
+                            },
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          CustomRoundedImageNetworkWithStatusIndicator(
+                            size: 40,
+                            isActive: _isActive,
+                            imagePath: widget.chat.groupImageUrl(),
+                          ),
+                        ],
                       ),
-                      CustomRoundedImageNetworkWithStatusIndicator(
-                        size: 40,
-                        isActive: _isActive,
-                        imagePath: widget.chat.groupImageUrl(),
-                      ),
-                    ],
-                  ),
-                ),
-                _messagesListView(),
-                _isTypingWidget(),
-                _sendMessageForm(),
-              ],
+                    ),
+                  _messagesListView(),
+                  _isTypingWidget(),
+                  _sendMessageForm(),
+                ],
+              ),
             ),
           ),
         ),
@@ -137,7 +156,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
       if (_conversationScreenProvider.chatMessages!.length != 0) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
-          height: .70 * _height,
+          height: .65 * _height,
           child: ListView.builder(
               controller: _messageListScrollController,
               itemCount: _conversationScreenProvider.chatMessages!.length,
@@ -160,7 +179,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
       } else {
         return  Container(
           padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
-          height: .70 * _height,
+          height: .65 * _height,
           alignment: Alignment.center,
           child: const Text(
             "Be the first to say hi 😄",
@@ -186,7 +205,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
       ),
       margin: EdgeInsets.symmetric(
         horizontal: _width * .03,
-        vertical: _height * 0.02,
+        vertical: _height * 0.03,
       ),
       child: Form(
         key: _formState,
@@ -206,8 +225,8 @@ class _ConverationScreenState extends State<ConverationScreen> {
 
   Widget _messageTextField() {
     return Container(
-      width: _width * 0.65,
-      height: _height * .07,
+      width: _width * 0.70,
+      height: _height * .08,
       child: CustomInputField(
         onSaved: (_value) {
           _conversationScreenProvider.message = _value;
@@ -228,6 +247,8 @@ class _ConverationScreenState extends State<ConverationScreen> {
         heroTag: null,
         backgroundColor: appMainColor,
         onPressed: () {
+          _conversationScreenProvider.isTyping = false;
+          _conversationScreenProvider.listenToKeyBoardChanges();
           _formState.currentState!.save();
           if (_conversationScreenProvider.message != null) {
             if (_conversationScreenProvider.message != "" &&
@@ -269,18 +290,25 @@ class _ConverationScreenState extends State<ConverationScreen> {
   Widget _isTypingWidget() {
     return _conversationScreenProvider.isTyping != null &&
             _conversationScreenProvider.isTyping!
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              SizedBox(
-                width: 25,
-              ),
-              SpinKitThreeBounce(
-                color: loadingColor,
-                size: 20,
-              ),
-            ],
-          )
+        ? Container(
+      height: _height*0.02,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: _width*.05,
+                ),
+                const Text("Typing",style: TextStyle(color: appMainColor),),
+                SizedBox(
+                  width: _width*.01,
+                ),
+                SpinKitThreeBounce(
+                  color: loadingColor,
+                  size: 20,
+                ),
+              ],
+            ),
+        )
         : Container();
   }
 }

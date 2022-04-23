@@ -38,7 +38,7 @@ class CustomListViewTilesChatGroup extends StatelessWidget {
     return ListTile(
       onTap: () => onPress(),
       leading: CustomRoundedImageNetworkWithStatusIndicator(
-          imagePath: imagePath, isActive: isActive, size: height * .7),
+          imagePath: imagePath, isActive: isActive, size: height * .6),
       minVerticalPadding: height * .20,
       title: Text(
         title,
@@ -97,7 +97,7 @@ class CustomConversationTileWidget extends StatelessWidget {
           !isMyMessage
               ? CustomRoundedImageNetworkWithStatusIndicator(
                   imagePath: sender.imageURL,
-                  size: width * 0.08,
+                  size: 20,
                   isActive: sender.wasRecentlyActive())
               : Container(),
           SizedBox(
@@ -106,13 +106,13 @@ class CustomConversationTileWidget extends StatelessWidget {
           chatMessage.type == MessageType.TEXT
               ? TextMessageWidget(
                   message: chatMessage,
-                  width: width * .5,
+                  width: width * .3,
                   isMyMessage: isMyMessage,
                   height: height * 0.06,
                   chatId: chatId)
               : ImageMessageWidget(
                   message: chatMessage,
-                  width: width * .65,
+                  width: width * .28,
                   isMyMessage: isMyMessage,
                   height: height * 0.30,
                   chatId: chatId)

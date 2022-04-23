@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              label: "Chats", icon: Icon(Icons.chat_bubble_outline_rounded)),
+              label: "Chats", icon: Icon(Icons.chat_bubble_outline_rounded,size: 40,),),
           BottomNavigationBarItem(
               label: "Users",
-              icon: Icon(Icons.supervised_user_circle_outlined)),
+              icon: Icon(Icons.supervised_user_circle_outlined,size: 40,)),
           BottomNavigationBarItem(
-              label: "Settings", icon: Icon(Icons.settings)),
+              label: "Settings", icon: Icon(Icons.settings,size: 40,)),
         ],
       ),
     );

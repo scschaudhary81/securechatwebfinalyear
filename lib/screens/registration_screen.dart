@@ -81,26 +81,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             )
-          : Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(
-                  horizontal: _width * .03, vertical: _height * .02),
-              height: _height * .98,
-              width: _width * .97,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _profilePicture(),
-                  SizedBox(height: _height * .05),
-                  _form(),
-                  SizedBox(height: _height * .05),
-                  _registerButton(),
-                  SizedBox(height: _height * .10),
-                ],
+          : Center(
+            child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(
+                    horizontal: _width * .03, vertical: _height * .02),
+                height: _height * .98,
+                width: _width * .46,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _profilePicture(),
+                    SizedBox(height: _height * .05),
+                    _form(),
+                    SizedBox(height: _height * .05),
+                    _registerButton(),
+                    SizedBox(height: _height * .10),
+                  ],
+                ),
               ),
-            ),
+          ),
     );
   }
 

@@ -33,7 +33,7 @@ class CustomInputField extends StatelessWidget {
           fillColor: Colors.black12,
           filled: true,
           hintText: hintText,
-          hintStyle: const TextStyle(color: appMainColor),
+          hintStyle: const TextStyle(color: appMainColor,fontSize: 20),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide.none,

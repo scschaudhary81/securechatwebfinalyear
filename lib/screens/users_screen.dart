@@ -71,7 +71,7 @@ class _UsersScreenState extends State<UsersScreen> {
               hintText: "Search...",
               icon: Icons.search,
               onEditingComplete: (_value) {
-                _userScreenProvider.getUsers(name:_value);
+                _userScreenProvider.getUsers(name: _value);
                 FocusScope.of(context).unfocus();
               },
             ),
@@ -92,13 +92,20 @@ class _UsersScreenState extends State<UsersScreen> {
             return ListView.builder(
               itemCount: _search.length,
               itemBuilder: (context, _idx) {
+                print(_search[_idx].lastSeen.difference(DateTime.now()).inDays);
                 return CustomListViewTileSearchUser(
                   height: _height * .10,
                   title: _search[_idx].name,
                   subTitle:
-                      _search[_idx].lastSeen.difference(DateTime.now()).inDays <
+                      _search[_idx].lastSeen.difference(DateTime.now()).inDays >
                               -9
-                          ? "Last Active: ${_search[_idx].lastDayActive()}"
+                          ? _search[_idx]
+                                      .lastSeen
+                                      .difference(DateTime.now())
+                                      .inMinutes >
+                                  -2
+                              ? "Active Now"
+                              : "Last Active: ${_search[_idx].lastDayActive()}"
                           : "Last Active: Long Ago",
                   imagePath: _search[_idx].imageURL,
                   isActive: _search[_idx].wasRecentlyActive(),
@@ -133,7 +140,10 @@ class _UsersScreenState extends State<UsersScreen> {
 
   Widget _createNewConversation() {
     return Visibility(
-      visible: _userScreenProvider.selectedUsers.isNotEmpty&&_userScreenProvider.selectedUsers.where((_element) => _element.uid==_auth.user.uid).isEmpty,
+      visible: _userScreenProvider.selectedUsers.isNotEmpty &&
+          _userScreenProvider.selectedUsers
+              .where((_element) => _element.uid == _auth.user.uid)
+              .isEmpty,
       child: CustomRoundedButton(
         height: _height * 0.08,
         name: _userScreenProvider.selectedUsers.length == 1

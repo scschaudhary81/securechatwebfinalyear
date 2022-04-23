@@ -31,7 +31,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late double _height;
   late double _width;
-
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -55,31 +55,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _actualUi() {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: _width * .03, horizontal: _height * .03),
-        height: _height * .98,
-        width: _width * .97,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _textTitle(),
-            SizedBox(
-              height: _height * .05,
+      body: Stack(
+        children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: _width * .03, horizontal: _height * .03),
+              height: _height * .98,
+              width: _width * .46,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _textTitle(),
+                  SizedBox(
+                    height: _height * .05,
+                  ),
+                  _formLogin(),
+                  SizedBox(
+                    height: _height * .05,
+                  ),
+                  _loginButton(),
+                  SizedBox(
+                    height: _height * .03,
+                  ),
+                  _registerNewUser(),
+                ],
+              ),
             ),
-            _formLogin(),
-            SizedBox(
-              height: _height * .05,
-            ),
-            _loginButton(),
-            SizedBox(
-              height: _height * .03,
-            ),
-            _registerNewUser(),
-          ],
-        ),
+          ),
+          if(isLoading)Center(
+            child: const CircularProgressIndicator(color: appMainColor,),
+          ),
+        ],
       ),
     );
   }
@@ -128,6 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _loginButton() {
     return CustomRoundedButton(
       onPressed: () {
+        setState(() {
+          isLoading = true;
+        });
         FocusManager.instance.primaryFocus?.unfocus();
         if (_formKey.currentState!.validate()) {
           print("email : $_email password : $_password");
@@ -150,6 +162,10 @@ class _LoginScreenState extends State<LoginScreen> {
             },
           );
         }
+        if(!mounted) return;
+        setState(() {
+          isLoading = false;
+        });
       },
       width: _width * 0.65,
       height: _height * 0.065,

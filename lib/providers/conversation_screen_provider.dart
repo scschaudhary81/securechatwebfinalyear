@@ -54,7 +54,7 @@ class ConversationScreenProvider extends ChangeNotifier {
     _cloudStorage = GetIt.instance.get<CloudStorageServices>();
     _keyboardVisibilityController = KeyboardVisibilityController();
     listenToIncomingMessages();
-    _listenToKeyBoardChanges();
+   // _listenToKeyBoardChanges();
     _updateActivity();
   }
 
@@ -78,11 +78,15 @@ class ConversationScreenProvider extends ChangeNotifier {
     });
  }
 
-  void _listenToKeyBoardChanges() {
-    _keyBoardEventStream =
-        _keyboardVisibilityController.onChange.listen((_event) {
-      _db.updateChatData(_chatId, {"is_activity": _event});
-    });
+  // void _listenToKeyBoardChanges() {
+  //   _keyBoardEventStream =
+  //       _keyboardVisibilityController.onChange.listen((_event) {
+  //     _db.updateChatData(_chatId, {"is_activity": _event});
+  //   });
+  // }
+  void listenToKeyBoardChanges() {
+          _db.updateChatData(_chatId, {"is_activity": isTyping});
+          notifyListeners();
   }
 
   void listenToIncomingMessages() {

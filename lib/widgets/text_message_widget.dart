@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 //packages
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:get_it/get_it.dart';
@@ -13,7 +13,8 @@ import '../constants.dart';
 //services
 import '../services/database_services.dart';
 import '../services/encryption_service.dart';
-
+//provider
+import '../providers/authentication_provider.dart';
 class TextMessageWidget extends StatefulWidget {
   final bool isMyMessage;
   final double height;
@@ -35,11 +36,12 @@ class TextMessageWidget extends StatefulWidget {
 
 class _TextMessageWidgetState extends State<TextMessageWidget> {
   late DataBaseServices _db;
-
+  late AuthenticationProvider _auth;
   String _userName = "User";
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<AuthenticationProvider>(context);
     _db = GetIt.instance.get<DataBaseServices>();
     _db.getUserFromUid(widget.message.senderId).then((_value) {
       if (!mounted) return;
@@ -50,6 +52,7 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
     return InkWell(
       onLongPress: () {
         print("called");
+        if(_auth.user.uid!=widget.message.senderId) return;
         _db.deleteMessage(
             widget.chatId,
             widget.message.content,
@@ -93,16 +96,16 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
             widget.isMyMessage
                 ? const Text(
                     "You",
-                    style: TextStyle(color: secondaryMessageColor, fontSize: 8),
+                    style: TextStyle(color: secondaryMessageColor, fontSize: 12),
                   )
                 : Text(
                     _userName,
                     style: const TextStyle(
-                        color: secondaryMessageColor, fontSize: 8),
+                        color: secondaryMessageColor, fontSize: 12),
                   ),
             Text(
               EncryptionService.decryptAES(widget.message.content),
-              style: const TextStyle(color: messageColor, fontSize: 12),
+              style: const TextStyle(color: messageColor, fontSize: 20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +115,7 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
                 Text(
                   timeago.format(widget.message.sentTime),
                   style: const TextStyle(
-                      color: secondaryMessageColor, fontSize: 8),
+                      color: secondaryMessageColor, fontSize: 12),
                 ),
               ],
             ),
