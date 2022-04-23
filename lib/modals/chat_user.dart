@@ -36,7 +36,7 @@ class ChatUser {
     return "${lastSeen.month}/${lastSeen.day}/${lastSeen.year}";
   }
   String lastMinuteActive(){
-    return "${lastSeen.difference(DateTime.now()).inMinutes} minutes ago";
+    return "${-1*lastSeen.difference(DateTime.now()).inMinutes} minutes ago";
   }
   String lastHrsActive(){
     return "${-1*lastSeen.difference(DateTime.now()).inHours} hr ago";

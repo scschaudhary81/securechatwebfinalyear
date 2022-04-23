@@ -291,7 +291,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
     return _conversationScreenProvider.isTyping != null &&
             _conversationScreenProvider.isTyping!
         ? Container(
-      height: _height*0.02,
+      height: _height*0.03,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -300,11 +300,11 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 ),
                 const Text("Typing",style: TextStyle(color: appMainColor),),
                 SizedBox(
-                  width: _width*.01,
+                  width: _width*.02,
                 ),
                 const SpinKitThreeBounce(
                   color: loadingColor,
-                  size: 20,
+                  size: 15,
                 ),
               ],
             ),
@@ -313,8 +313,8 @@ class _ConverationScreenState extends State<ConverationScreen> {
   }
   @override
   void dispose() {
-    super.dispose();
     _conversationScreenProvider.isTyping = false;
     _conversationScreenProvider.listenToKeyBoardChanges();
+    super.dispose();
   }
 }

@@ -83,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           elevation: .1,
           child: Container(
             height: _height * .20,
-            width: _width * .45,
+            width: _width * .70,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -102,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 10),
                     Text(
                       _auth.user.name,
-                      style: const TextStyle(color: textColor, fontSize: 40),
+                      style: const TextStyle(color: textColor, fontSize: 25),
                     ),
                   ],
                 ),
@@ -186,5 +186,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         style: TextStyle(color: Colors.white,fontSize: 17),
       ),
     );
+  }
+  double min(double a,double b){
+    return a<b?a:b;
   }
 }
