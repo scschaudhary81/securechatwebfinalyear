@@ -88,10 +88,8 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 if(_event.isKeyPressed(LogicalKeyboardKey.enter)||_event.isKeyPressed(LogicalKeyboardKey.numpadEnter)){
                   _conversationScreenProvider.isTyping = false;
                   _conversationScreenProvider.listenToKeyBoardChanges();
-                  print("sssss");
                   _conversationScreenProvider.sendImageMessage();
                 }else{
-                  print("s");
                   _conversationScreenProvider.isTyping = true;
                   _conversationScreenProvider.listenToKeyBoardChanges();
                 }
@@ -110,7 +108,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                  TopBarWidget(
-                      widget.chat.title(),
+                  widget.chat.title().length>15?widget.chat.title().substring(0,15)+"...":widget.chat.title(),
                       fontSize: 25,
                       primaryWidget: IconButton(
                         icon: const Icon(Icons.delete),
@@ -225,7 +223,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
 
   Widget _messageTextField() {
     return Container(
-      width: _width * 0.70,
+      width: _width * 0.60,
       height: _height * .08,
       child: CustomInputField(
         onSaved: (_value) {
@@ -239,7 +237,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
   }
 
   Widget _sendMessageButton() {
-    double _size = _height * .05;
+    double _size = _height * .07;
     return Container(
       height: _size,
       width: _size,
@@ -268,7 +266,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
   }
 
   Widget _imageMessagePickerButton() {
-    double _size = _height * 0.05;
+    double _size = _height * 0.07;
     return SizedBox(
       height: _size,
       width: _size,
