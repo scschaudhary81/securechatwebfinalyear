@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.symmetric(
                   vertical: _width * .03, horizontal: _height * .03),
               height: _height * .98,
-              width: _width * .46,
+              width: min(_width * .97,400),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -85,9 +85,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          if(isLoading)Center(
-            child: const CircularProgressIndicator(color: appMainColor,),
-          ),
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(
+                color: appMainColor,
+              ),
+            ),
         ],
       ),
     );
@@ -139,6 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         setState(() {
           isLoading = true;
+          print("loading");
         });
         FocusManager.instance.primaryFocus?.unfocus();
         if (_formKey.currentState!.validate()) {
@@ -149,6 +153,11 @@ class _LoginScreenState extends State<LoginScreen> {
               .loginUsingEmailAndPassword(_email!, _password!, context)
               .then(
             (value) {
+              if (!mounted) return;
+              setState(() {
+                print("loading stopped");
+                isLoading = false;
+              });
               if (!value) {
                 Fluttertoast.showToast(
                     msg: "Enter Correct Email and Password!!",
@@ -162,9 +171,14 @@ class _LoginScreenState extends State<LoginScreen> {
             },
           );
         }
-        if(!mounted) return;
-        setState(() {
-          isLoading = false;
+        Future.delayed(Duration(seconds: 10)).then((value) {
+          if (mounted) {
+            if (mounted) {
+              setState(() {
+                isLoading = false;
+              });
+            }
+          }
         });
       },
       width: _width * 0.65,
@@ -186,5 +200,9 @@ class _LoginScreenState extends State<LoginScreen> {
         _navigationServices.popAndNavigateToRoute(RegisterScreen.route);
       },
     );
+  }
+
+  double min(double a,double b){
+    return a<b?a:b;
   }
 }

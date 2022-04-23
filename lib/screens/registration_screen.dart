@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: _width * .03, vertical: _height * .02),
                 height: _height * .98,
-                width: _width * .46,
+                width: min(_width * .97,500),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fontSize: 16.0);
         }
       },
-      width: _width * .6,
+      width: _width * .4,
     );
   }
 
@@ -238,5 +238,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       }(),
     );
+  }
+  double min(double a,double b){
+    return a<b?a:b;
   }
 }

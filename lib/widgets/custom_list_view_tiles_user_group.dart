@@ -106,19 +106,22 @@ class CustomConversationTileWidget extends StatelessWidget {
           chatMessage.type == MessageType.TEXT
               ? TextMessageWidget(
                   message: chatMessage,
-                  width: width * .3,
+                  width: min(width * .7,300),
                   isMyMessage: isMyMessage,
                   height: height * 0.06,
                   chatId: chatId)
               : ImageMessageWidget(
                   message: chatMessage,
-                  width: width * .28,
+                  width: min(width * .7,400),
                   isMyMessage: isMyMessage,
                   height: height * 0.30,
                   chatId: chatId)
         ],
       ),
     );
+  }
+  double min(double a,double b){
+    return a<b?a:b;
   }
 }
 

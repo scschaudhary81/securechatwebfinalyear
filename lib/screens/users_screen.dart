@@ -96,17 +96,31 @@ class _UsersScreenState extends State<UsersScreen> {
                 return CustomListViewTileSearchUser(
                   height: _height * .10,
                   title: _search[_idx].name,
-                  subTitle:
-                      _search[_idx].lastSeen.difference(DateTime.now()).inDays >
-                              -9
-                          ? _search[_idx]
+                  subTitle: _search[_idx]
+                              .lastSeen
+                              .difference(DateTime.now())
+                              .inDays >
+                          -9
+                      ? _search[_idx]
+                                  .lastSeen
+                                  .difference(DateTime.now())
+                                  .inMinutes >
+                              -2
+                          ? "Active Now"
+                          : _search[_idx]
                                       .lastSeen
                                       .difference(DateTime.now())
-                                      .inMinutes >
-                                  -2
-                              ? "Active Now"
+                                      .inDays >=
+                                  -1
+                              ?-1* _search[_idx]
+                                          .lastSeen
+                                          .difference(DateTime.now())
+                                          .inMinutes >
+                                      59
+                                  ? "Last Active: ${_search[_idx].lastHrsActive()}"
+                                  : "Last Active: ${_search[_idx].lastMinuteActive()}"
                               : "Last Active: ${_search[_idx].lastDayActive()}"
-                          : "Last Active: Long Ago",
+                      : "Last Active: Long Ago",
                   imagePath: _search[_idx].imageURL,
                   isActive: _search[_idx].wasRecentlyActive(),
                   isSelected:

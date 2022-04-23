@@ -126,12 +126,12 @@ class _ImageMessageWidgetState extends State<ImageMessageWidget> {
                     ? const Text(
                         "You",
                         style: TextStyle(
-                            color: secondaryMessageColor, fontSize: 20),
+                            color: secondaryMessageColor, fontSize: 12),
                       )
                     : Text(
                         _userName,
                         style: const TextStyle(
-                            color: secondaryMessageColor, fontSize: 20),
+                            color: secondaryMessageColor, fontSize: 12),
                       ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

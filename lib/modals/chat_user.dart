@@ -35,8 +35,14 @@ class ChatUser {
   {
     return "${lastSeen.month}/${lastSeen.day}/${lastSeen.year}";
   }
+  String lastMinuteActive(){
+    return "${lastSeen.difference(DateTime.now()).inMinutes} minutes ago";
+  }
+  String lastHrsActive(){
+    return "${-1*lastSeen.difference(DateTime.now()).inHours} hr ago";
+  }
   bool wasRecentlyActive()
   {
-    return DateTime.now().difference(lastSeen).inHours<2;
+    return DateTime.now().difference(lastSeen).inMinutes<2;
   }
 }

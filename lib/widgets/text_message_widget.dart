@@ -105,7 +105,7 @@ class _TextMessageWidgetState extends State<TextMessageWidget> {
                   ),
             Text(
               EncryptionService.decryptAES(widget.message.content),
-              style: const TextStyle(color: messageColor, fontSize: 20),
+              style: const TextStyle(color: messageColor, fontSize: 15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

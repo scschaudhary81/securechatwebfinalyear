@@ -302,7 +302,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 SizedBox(
                   width: _width*.01,
                 ),
-                SpinKitThreeBounce(
+                const SpinKitThreeBounce(
                   color: loadingColor,
                   size: 20,
                 ),
@@ -310,5 +310,11 @@ class _ConverationScreenState extends State<ConverationScreen> {
             ),
         )
         : Container();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _conversationScreenProvider.isTyping = false;
+    _conversationScreenProvider.listenToKeyBoardChanges();
   }
 }
