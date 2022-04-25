@@ -13,6 +13,7 @@ import '../services/media_services.dart';
 import '../services/cloud_storage_services.dart';
 import '../services/navigation_services.dart';
 import '../services/encryption_service.dart';
+
 //providers
 import '../providers/authentication_provider.dart';
 
@@ -27,6 +28,7 @@ class ConversationScreenProvider extends ChangeNotifier {
   late StreamSubscription _conversationScreenSubscription;
   late StreamSubscription _keyBoardEventStream;
   late KeyboardVisibilityController _keyboardVisibilityController;
+  late StreamSubscription _activitySubscription;
 
   bool? isTyping;
 
@@ -54,29 +56,30 @@ class ConversationScreenProvider extends ChangeNotifier {
     _cloudStorage = GetIt.instance.get<CloudStorageServices>();
     _keyboardVisibilityController = KeyboardVisibilityController();
     listenToIncomingMessages();
-   // _listenToKeyBoardChanges();
+    // _listenToKeyBoardChanges();
     _updateActivity();
   }
-
   @override
-  void dispose() {
-    _conversationScreenSubscription.cancel();
+  void dispose() async {
+    await _activitySubscription.cancel();
+    await _conversationScreenSubscription.cancel();
     super.dispose();
   }
+
   void goBack() {
     _navigation.goBack();
   }
 
-
- void _updateActivity(){
-    _db.streamIsActivity(_chatId).listen((_event) {
+  void _updateActivity() {
+    _activitySubscription = _db.streamIsActivity(_chatId).listen((_event) {
       bool? _value = _event.get("is_activity");
-      if(_value!=null){
+      if (_value != null) {
         print(_value);
         isTyping = _value;
+        notifyListeners();
       }
     });
- }
+  }
 
   // void _listenToKeyBoardChanges() {
   //   _keyBoardEventStream =
@@ -85,8 +88,8 @@ class ConversationScreenProvider extends ChangeNotifier {
   //   });
   // }
   void listenToKeyBoardChanges() {
-          _db.updateChatData(_chatId, {"is_activity": isTyping});
-          notifyListeners();
+    _db.updateChatData(_chatId, {"is_activity": isTyping});
+    notifyListeners();
   }
 
   void listenToIncomingMessages() {
@@ -149,6 +152,12 @@ class ConversationScreenProvider extends ChangeNotifier {
           );
           _db.addMessageToChat(_chatId, _messageToSend);
         }
+        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+          if (_messagesListViewController.hasClients) {
+            _messagesListViewController
+                .jumpTo(_messagesListViewController.position.maxScrollExtent);
+          }
+        });
       }
     } catch (e) {
       print("error sending image message with error");

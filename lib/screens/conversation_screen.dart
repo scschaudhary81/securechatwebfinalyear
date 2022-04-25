@@ -84,16 +84,15 @@ class _ConverationScreenState extends State<ConverationScreen> {
         autofocus: true,
         focusNode: FocusNode(),
         includeSemantics: true,
-        onKey: (_event){
-                if(_event.isKeyPressed(LogicalKeyboardKey.enter)||_event.isKeyPressed(LogicalKeyboardKey.numpadEnter)){
-                  _conversationScreenProvider.isTyping = false;
-                  _conversationScreenProvider.listenToKeyBoardChanges();
-                  _conversationScreenProvider.sendImageMessage();
-                }else{
-                  _conversationScreenProvider.isTyping = true;
-                  _conversationScreenProvider.listenToKeyBoardChanges();
-                }
-
+        onKey: (_event) {
+          if (_event.isKeyPressed(LogicalKeyboardKey.enter) ||
+              _event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            _conversationScreenProvider.isTyping = false;
+            _conversationScreenProvider.listenToKeyBoardChanges();
+          } else {
+            _conversationScreenProvider.isTyping = true;
+            _conversationScreenProvider.listenToKeyBoardChanges();
+          }
         },
         child: Scaffold(
           body: SingleChildScrollView(
@@ -107,36 +106,38 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 TopBarWidget(
-                  widget.chat.title().length>15?widget.chat.title().substring(0,15)+"...":widget.chat.title(),
-                      fontSize: 25,
-                      primaryWidget: IconButton(
-                        icon: const Icon(Icons.delete),
-                        color: topBarColor,
-                        onPressed: () {
-                          _conversationScreenProvider.deleteChat();
-                        },
-                      ),
-                      secondaryWidget: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            color: topBarColor,
-                            onPressed: () {
-                              _conversationScreenProvider.goBack();
-                            },
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          CustomRoundedImageNetworkWithStatusIndicator(
-                            size: 40,
-                            isActive: _isActive,
-                            imagePath: widget.chat.groupImageUrl(),
-                          ),
-                        ],
-                      ),
+                  TopBarWidget(
+                    widget.chat.title().length > 15
+                        ? widget.chat.title().substring(0, 15) + "..."
+                        : widget.chat.title(),
+                    fontSize: 25,
+                    primaryWidget: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: topBarColor,
+                      onPressed: () {
+                        _conversationScreenProvider.deleteChat();
+                      },
                     ),
+                    secondaryWidget: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          color: topBarColor,
+                          onPressed: () {
+                            _conversationScreenProvider.goBack();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        CustomRoundedImageNetworkWithStatusIndicator(
+                          size: 40,
+                          isActive: _isActive,
+                          imagePath: widget.chat.groupImageUrl(),
+                        ),
+                      ],
+                    ),
+                  ),
                   _messagesListView(),
                   _isTypingWidget(),
                   _sendMessageForm(),
@@ -175,7 +176,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
               }),
         );
       } else {
-        return  Container(
+        return Container(
           padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
           height: .65 * _height,
           alignment: Alignment.center,
@@ -213,8 +214,8 @@ class _ConverationScreenState extends State<ConverationScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _messageTextField(),
-            _imageMessagePickerButton(),
             _sendMessageButton(),
+            _imageMessagePickerButton(),
           ],
         ),
       ),
@@ -232,6 +233,22 @@ class _ConverationScreenState extends State<ConverationScreen> {
         hintText: "Enter any message",
         isObscured: false,
         regExp: r"^(?!\s*$).+",
+        function: () {
+          _conversationScreenProvider.isTyping = false;
+          _conversationScreenProvider.listenToKeyBoardChanges();
+          _formState.currentState!.save();
+          if (_conversationScreenProvider.message != null) {
+            if (_conversationScreenProvider.message != "" &&
+                validateStringInput(_conversationScreenProvider.message) !=
+                    "" &&
+                _conversationScreenProvider.message.length < 250) {
+              _conversationScreenProvider.sentTextMessage();
+              _formState.currentState!.reset();
+            } else {
+              _formState.currentState!.reset();
+            }
+          }
+        },
       ),
     );
   }
@@ -252,7 +269,7 @@ class _ConverationScreenState extends State<ConverationScreen> {
             if (_conversationScreenProvider.message != "" &&
                 validateStringInput(_conversationScreenProvider.message) !=
                     "" &&
-                _conversationScreenProvider.message.length < 70) {
+                _conversationScreenProvider.message.length < 250) {
               _conversationScreenProvider.sentTextMessage();
               _formState.currentState!.reset();
             } else {
@@ -289,16 +306,19 @@ class _ConverationScreenState extends State<ConverationScreen> {
     return _conversationScreenProvider.isTyping != null &&
             _conversationScreenProvider.isTyping!
         ? Container(
-      height: _height*0.03,
-          child: Row(
+            height: _height * 0.03,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: _width*.05,
+                  width: _width * .05,
                 ),
-                const Text("Typing",style: TextStyle(color: appMainColor),),
+                const Text(
+                  "Typing",
+                  style: TextStyle(color: appMainColor),
+                ),
                 SizedBox(
-                  width: _width*.02,
+                  width: _width * .02,
                 ),
                 const SpinKitThreeBounce(
                   color: loadingColor,
@@ -306,9 +326,10 @@ class _ConverationScreenState extends State<ConverationScreen> {
                 ),
               ],
             ),
-        )
+          )
         : Container();
   }
+
   @override
   void dispose() {
     _conversationScreenProvider.isTyping = false;

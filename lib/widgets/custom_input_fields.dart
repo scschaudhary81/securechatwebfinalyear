@@ -8,18 +8,22 @@ class CustomInputField extends StatelessWidget {
   final String regExp;
   final String hintText;
   final bool isObscured;
+  Function? function;
 
-  const CustomInputField({
+  CustomInputField({
     required this.onSaved,
     required this.hintText,
     required this.isObscured,
     required this.regExp,
+    this.function,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+        enableInteractiveSelection: true,
+        onFieldSubmitted: function != null ? (_) => function!() : (_) {},
         onSaved: (_input) => onSaved(_input!),
         cursorColor: Colors.black,
         style: const TextStyle(color: formFieldTextColor),
@@ -33,7 +37,7 @@ class CustomInputField extends StatelessWidget {
           fillColor: Colors.black12,
           filled: true,
           hintText: hintText,
-          hintStyle: const TextStyle(color: appMainColor,fontSize: 20),
+          hintStyle: const TextStyle(color: appMainColor, fontSize: 20),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide.none,
@@ -62,6 +66,7 @@ class CustomSearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onEditingComplete,
       controller: controller,
       onEditingComplete: () => onEditingComplete(controller.value.text),
       cursorColor: formFieldTextColor,
@@ -75,7 +80,10 @@ class CustomSearchTextField extends StatelessWidget {
             borderSide: BorderSide.none),
         hintText: hintText,
         hintStyle: const TextStyle(color: appMainColor),
-        prefixIcon: Icon(icon,color: appMainColor,),
+        prefixIcon: Icon(
+          icon,
+          color: appMainColor,
+        ),
       ),
     );
   }

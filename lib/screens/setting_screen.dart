@@ -174,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _logOutButton() {
     return MaterialButton(
-      height: _height*0.08,
+      height: _height*0.07,
       minWidth: _width*0.15,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       color: appMainColor,
@@ -183,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       child: const Text(
         "Log out",
-        style: TextStyle(color: Colors.white,fontSize: 17),
+        style: TextStyle(color: Colors.white,fontSize: 15),
       ),
     );
   }

@@ -72,7 +72,6 @@ class _UsersScreenState extends State<UsersScreen> {
               icon: Icons.search,
               onEditingComplete: (_value) {
                 _userScreenProvider.getUsers(name: _value);
-                FocusScope.of(context).unfocus();
               },
             ),
             _searchedUserList(),
@@ -126,6 +125,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   isSelected:
                       _userScreenProvider.selectedUsers.contains(_search[_idx]),
                   onPress: () {
+                    FocusScope.of(context).unfocus();
                     _userScreenProvider.updateSelectedUser(_search[_idx]);
                   },
                 );
