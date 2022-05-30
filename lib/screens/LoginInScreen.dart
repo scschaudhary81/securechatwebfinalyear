@@ -192,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Container(
         alignment: Alignment.center,
         child: const Text(
-          "Don't have and account",
+          "Don't have an account",
           style: TextStyle(color: appMainColor),
         ),
       ),

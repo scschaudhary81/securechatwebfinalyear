@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
   Widget _actualApp(BuildContext context)
   {
     return  MaterialApp(
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       title: "Secure Chat",
       theme: ThemeData(
